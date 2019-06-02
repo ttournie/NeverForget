@@ -1,5 +1,7 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import NoteForm from './components/NoteForm/NoteForm';
 import LogginForm from './components/LogginForm/LogginForm';
 import SubscribeForm from './components/SubscribeForm/SubscribeForm';
@@ -7,7 +9,12 @@ import MyPage from './components/MyPage/MyPage';
 import NavBar from './components/NavBar/NavBar';
 import styles from './App.less';
 
-function App() {
+const ProtectedRoute = ({ isAllowed, ...props }) => 
+     isAllowed 
+     ? <Route {...props}/> 
+     : <Redirect to="/login"/>;
+
+const App = ({isAuthenticated}) => {
   return (
     <div className={styles.App}>
         <NavBar/>
@@ -15,10 +22,18 @@ function App() {
           <Route exact path='/' component={NoteForm}/>
           <Route exact path='/login' component={LogginForm}/>
           <Route exact path='/subscribe' component={SubscribeForm}/>
-          <Route exact path='/my-page' component={MyPage}/>
+          <ProtectedRoute isAllowed={isAuthenticated} exact path='/my-page' component={MyPage}/>
         </Switch>
     </div>
   );
 }
 
-export default App;
+App.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = ({user}) => ({
+  isAuthenticated: user.isAuthenticated
+})
+
+export default connect(mapStateToProps)(App);
