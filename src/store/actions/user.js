@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import config from '../../config/config';
 
 // Action type
@@ -34,8 +35,8 @@ export const login = ({username, password}) => async(dispatch) => {
             password
         })
         const { data } = response;
-        dispatch({type: FETCH_USER_SUCCEED});
         dispatch(setUserAfterLogin(data));
+        Cookies.set('user_cookie', data, { expires: 7 });
     } catch (err) {
         dispatch({type: FETCH_USER_FAILED});
     }
@@ -46,6 +47,7 @@ export const logout = () => async(dispatch) => {
     try {
         await axios.get(`${config.apiUrl}/user/logout`);
         dispatch(clearUser());
+        Cookies.remove('user_cookie');
     } catch (err) {
         dispatch({type: LOG_OUT_USER_FAILED});
     }
@@ -60,6 +62,7 @@ export const createUser = ({username, password}) => async(dispatch) => {
         })
         const { data } = response;
         dispatch(setUserAfterSubscription(data));
+        Cookies.set('user_cookie', data, { expires: 7 });
     } catch (err) {
         dispatch({type: CREATE_USER_FAILED});
     }

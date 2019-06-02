@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import {
     FETCHING_USER,
     FETCH_USER_SUCCEED,
@@ -11,8 +12,8 @@ import {
 } from '../actions/user';
 
 const initialState = {
-    userInfo: {},
-    isAuthenticated: false,
+    userInfo: Cookies.getJSON('user_cookie'),
+    isAuthenticated: typeof Cookies.get('user_cookie') !== 'undefined',
     fetching: false,
     error: false,
 }
