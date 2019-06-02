@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import config from '../../config/config'
+import React, {useState} from 'react';
+import config from '../../config/config';
+import styles from './NoteForm.less';
 
 const NoteForm = () => {
     const [body, setBody] = useState('');
@@ -27,9 +28,10 @@ const NoteForm = () => {
 
     return (
         <form
+            className={styles.body}
             onSubmit={handleOnSubmit}
         >
-            <label htmlFor="body">Enter the note title</label>
+            <label className={styles.body} htmlFor="body">Enter the note title</label>
             <input type="text" name="title" value={title} onChange={(e) => setTitle(e.target.value)}/>
             <label htmlFor="body">Enter the note body</label>
             <input type="text" name="body" value={body} onChange={(e) => setBody(e.target.value)}/>
