@@ -19,19 +19,6 @@ async function addUser(db, user, req, res) {
     }
 }
 
-// router.get('/:id', (req, res) => {
-//     const id = req.params.id;
-//     const details = {_id: new ObjectId(id)};
-//     const db = getDb();
-//     db.collection('users').findOne(details, (err, user) => {
-//         if (err) {
-//             res.send({ 'error' : 'An error as occured' });
-//         } else {
-//             res.send(user);
-//         }
-//     })
-// });
-
 router.get('/logout', (req, res) => {
     console.log('test');
     req.logout();

@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
-const cookieParser = require("cookie-parser");
 const morgan = require('morgan');
 const session = require('express-session');
 const userRouter = require("./app/routes/userRoutes");
@@ -17,7 +16,6 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(morgan('combined'));
 app.use(session({

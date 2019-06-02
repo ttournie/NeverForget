@@ -18,6 +18,7 @@ module.exports = function localStrategy(db) {
                     if (!match) {
                         done(null, false);
                     } else {
+                        delete userByUsername.password;
                         done(null, userByUsername);
                     }
                 } else {
