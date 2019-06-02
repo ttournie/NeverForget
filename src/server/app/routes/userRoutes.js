@@ -1,9 +1,10 @@
 const express = require('express');
-const md5 = require('md5');
 const ObjectId = require('mongodb').ObjectID;
 const passport = require('passport');
+const bcrypt = require('bcrypt');
 const { getDb } = require('..//mongo/database');
 
+const saltRounds = 10;
 var router = express.Router();
 
 async function addUser(db, user, req, res) {
@@ -39,11 +40,21 @@ router.get('/logout', (req, res) => {
 
 router.post('/', (req, res) => {
     const db = getDb();
-    const user = {
-        username: req.body.username,
-        password: md5(req.body.password),
-    }   
-    addUser(db, user, req, res);
+    let password = req.body.password;
+    bcrypt.hash(password, saltRounds,
+        function(err, hashedPassword) {
+        if (err) {
+            res.json({error: 'could not create user'});
+        }
+        else {
+            password = hashedPassword;
+            const user = {
+                username: req.body.username,
+                password: hashedPassword,
+            }  
+            addUser(db, user, req, res);
+        }
+      }); 
 });
 
 router.post('/login', passport.authenticate('local'), (req, res) => {

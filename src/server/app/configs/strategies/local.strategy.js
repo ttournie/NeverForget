@@ -1,6 +1,6 @@
 const passport = require('passport');
 const { Strategy } = require('passport-local');
-const md5 = require('md5');
+const bcrypt = require('bcrypt');
 
 module.exports = function localStrategy(db) {
     passport.use(new Strategy(
@@ -10,12 +10,18 @@ module.exports = function localStrategy(db) {
         }, async (username, password, done) => {
             const user = {
                 username: username,
-                password: md5(password),
             }
             try {
-                const LoggedUser = await db.collection('users').findOne(user);
-                if (LoggedUser) {
-                    done(null, LoggedUser);
+                const userByUsername = await db.collection('users').findOne(user);
+
+                if (userByUsername) {
+                    bcrypt.compare(password, userByUsername.passport, function(err) {
+                        if (err) {
+                            done(null, userByUsername);
+                        } else {
+                            done(null, false);
+                        }
+                      });
                 } else {
                     done(null, false);
                 }
