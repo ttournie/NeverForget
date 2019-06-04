@@ -8,7 +8,7 @@ const rateLimit = require('express-rate-limit');
 const path = require('path');
 const chalk = require('chalk');
 const debug = require('debug')('app');
-const userRouter = require('./app/routes/userRoutes');
+const authRouter = require('./app/routes/authRoutes');
 const passportAuth = require('./app/configs/passport');
 const { initDb } = require('./app/mongo/database');
 
@@ -47,7 +47,7 @@ app.use(express.static(path.join(__dirname, '/public/')));
 initDb((initDbError, database) => {
   if (initDbError) return debug(initDbError);
   passportAuth(app, database);
-  app.use('/user', userRouter);
+  app.use(authRouter);
 
   app.use((err, req, res, next) => {
     debug(`error middleware called with ${err}`);

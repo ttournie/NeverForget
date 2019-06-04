@@ -37,7 +37,7 @@ const clearUser = () => ({
 export const getUserFromSession = () => async(dispatch) => {
     dispatch({type: FETCHING_USER_FROM_SESSION});
     try {
-        const data = await get('/user');
+        const data = await get('/myInfo');
         dispatch(setUserFromSession(data));
     } catch (err) {
         // The server session is not valid anymore so the cookie needs to be removed
@@ -49,7 +49,7 @@ export const getUserFromSession = () => async(dispatch) => {
 export const login = ({username, password}) => async(dispatch) => {
     dispatch({type: FETCHING_USER});
     try {
-        const response = await post('/user/login', {
+        const response = await post('/login', {
             username,
             password
         });
@@ -64,7 +64,7 @@ export const login = ({username, password}) => async(dispatch) => {
 export const logout = () => async(dispatch) => {
     dispatch({type: LOGGING_OUT_USER});
     try {
-        await get('/user/logout');
+        await get('/logout');
         dispatch(clearUser());
         Cookies.remove('user_cookie');
     } catch (err) {
@@ -76,7 +76,7 @@ export const logout = () => async(dispatch) => {
 export const createUser = ({username, password}) => async(dispatch) => {
     dispatch({type: CREATING_USER});
     try {
-        const response = await post('/user', {
+        const response = await post('/subscribe', {
             username,
             password
         })
