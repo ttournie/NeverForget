@@ -44,9 +44,9 @@ app.use(helmet());
 
 app.use(express.static(path.join(__dirname, '/public/')));
 
-initDb((initDbError, database) => {
+initDb((initDbError) => {
   if (initDbError) return debug(initDbError);
-  passportAuth(app, database);
+  passportAuth(app);
   app.use(authRouter);
 
   app.use((err, req, res, next) => {

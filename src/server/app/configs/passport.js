@@ -1,10 +1,12 @@
 const passport = require('passport');
 const ObjectId = require('mongodb').ObjectID;
 const debug = require('debug')('app:passport');
+const { getDb } = require('../mongo/database');
 const local = require('./strategies/local.strategy');
 
-module.exports = function passportConfig(app, db) {
+module.exports = function passportConfig(app) {
   debug('Initialize passport');
+  const db = getDb();
   app.use(passport.initialize());
   app.use(passport.session());
   passport.serializeUser((user, done) => {
