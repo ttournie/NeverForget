@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "dev": "DEBUG=app nodemon server.js",
+    "dev": "DEBUG=app,app:* nodemon server.js",
     "lint": "eslint server.js",
     "lint-fix": "eslint --fix server.js"
   },
@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "express": "^4.17.0",
+    "express-rate-limit": "^4.0.4",
     "express-session": "^1.16.1",
     "helmet": "^3.18.0",
     "md5": "^2.2.1",

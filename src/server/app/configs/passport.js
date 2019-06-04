@@ -1,8 +1,10 @@
 const passport = require('passport');
 const ObjectId = require('mongodb').ObjectID;
+const debug = require('debug')('app:passport');
 const local = require('./strategies/local.strategy');
 
 module.exports = function passportConfig(app, db) {
+  debug('Initialize passport');
   app.use(passport.initialize());
   app.use(passport.session());
   passport.serializeUser((user, done) => {
