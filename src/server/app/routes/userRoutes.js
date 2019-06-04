@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/:id', (req, res) => {
   if (req.isAuthenticated()) {
     res.send(req.user);
   } else {

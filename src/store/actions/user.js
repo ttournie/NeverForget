@@ -37,7 +37,7 @@ const clearUser = () => ({
 export const getUserFromSession = () => async(dispatch) => {
     dispatch({type: FETCHING_USER_FROM_SESSION});
     try {
-        const data = await get('/myInfo');
+        const data = await get('/logged-user');
         dispatch(setUserFromSession(data));
     } catch (err) {
         // The server session is not valid anymore so the cookie needs to be removed
