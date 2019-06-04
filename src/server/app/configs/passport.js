@@ -16,6 +16,7 @@ module.exports = function passportConfig(app, db) {
             }
             try {
                 const user = await db.collection('users').findOne(userObject);
+                delete user.password;
                 done(null, user);
             } catch(err) {
                 done(err, false);

@@ -1,6 +1,5 @@
-import axios from 'axios';
 import Cookies from 'js-cookie';
-import config from '../../config/config';
+import {get, post} from '../../utils/api';
 
 // Action type
 export const FETCHING_USER = 'FETCHING_USER';
@@ -12,6 +11,9 @@ export const LOG_OUT_USER_SUCCEED = 'LOG_OUT_USER_SUCCEED';
 export const CREATING_USER = 'CREATING_USER';
 export const CREATE_USER_FAILED = 'CREATE_USER_FAILED';
 export const CREATE_USER_SUCCEED = 'CREATE_USER_SUCCEED';
+export const FETCHING_USER_FROM_SESSION = 'FETCHING_USER_FROM_SESSION';
+export const FETCH_USER_FROM_SESSION_FAILED = 'FETCH_USER_FROM_SESSION_FAILED';
+export const FETCH_USER_FROM_SESSION_SUCCEED = 'FETCH_USER_FROM_SESSION_SUCCEED';
 
 const setUserAfterLogin = (user) => ({
     type: FETCH_USER_SUCCEED,
@@ -23,17 +25,34 @@ const setUserAfterSubscription = (user) => ({
     user,
 })
 
+const setUserFromSession = (user) => ({
+    type: FETCH_USER_FROM_SESSION_SUCCEED,
+    user,
+})
+
 const clearUser = () => ({
     type: LOG_OUT_USER_SUCCEED,
 })
 
+export const getUserFromSession = () => async(dispatch) => {
+    dispatch({type: FETCHING_USER_FROM_SESSION});
+    try {
+        const data = await get('/user');
+        dispatch(setUserFromSession(data));
+    } catch (err) {
+        // The server session is not valid anymore so the cookie needs to be removed
+        Cookies.remove('user_cookie');
+        dispatch({type: FETCH_USER_FROM_SESSION_FAILED});
+    }
+}
+
 export const login = ({username, password}) => async(dispatch) => {
     dispatch({type: FETCHING_USER});
     try {
-        const response = await axios.post(`${config.apiUrl}/user/login`, {
+        const response = await post('/user/login', {
             username,
             password
-        })
+        });
         const { data } = response;
         dispatch(setUserAfterLogin(data));
         Cookies.set('user_cookie', data, { expires: 7 });
@@ -45,10 +64,11 @@ export const login = ({username, password}) => async(dispatch) => {
 export const logout = () => async(dispatch) => {
     dispatch({type: LOGGING_OUT_USER});
     try {
-        await axios.get(`${config.apiUrl}/user/logout`);
+        await get('/user/logout');
         dispatch(clearUser());
         Cookies.remove('user_cookie');
     } catch (err) {
+        console.log(err)
         dispatch({type: LOG_OUT_USER_FAILED});
     }
 }
@@ -56,7 +76,7 @@ export const logout = () => async(dispatch) => {
 export const createUser = ({username, password}) => async(dispatch) => {
     dispatch({type: CREATING_USER});
     try {
-        const response = await axios.post(`${config.apiUrl}/user`, {
+        const response = await post('/user', {
             username,
             password
         })

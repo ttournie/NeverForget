@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
@@ -7,6 +7,7 @@ import LogginForm from './components/LogginForm/LogginForm';
 import SubscribeForm from './components/SubscribeForm/SubscribeForm';
 import MyPage from './components/MyPage/MyPage';
 import NavBar from './components/NavBar/NavBar';
+import { getUserFromSession } from './store/actions/user';
 import styles from './App.less';
 
 const ProtectedRoute = ({ isAllowed, ...props }) => 
@@ -14,7 +15,14 @@ const ProtectedRoute = ({ isAllowed, ...props }) =>
      ? <Route {...props}/> 
      : <Redirect to="/login"/>;
 
-const App = ({isAuthenticated}) => {
+const App = ({isAuthenticated, getUserFromSession}) => {
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getUserFromSession();
+    }
+  }, [isAuthenticated, getUserFromSession])
+
   return (
     <div className={styles.App}>
         <NavBar/>
@@ -36,4 +44,4 @@ const mapStateToProps = ({user}) => ({
   isAuthenticated: user.isAuthenticated
 })
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, {getUserFromSession})(App);

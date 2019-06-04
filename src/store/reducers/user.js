@@ -8,7 +8,10 @@ import {
     LOG_OUT_USER_FAILED,
     CREATING_USER,
     CREATE_USER_SUCCEED,
-    CREATE_USER_FAILED
+    CREATE_USER_FAILED,
+    FETCHING_USER_FROM_SESSION,
+    FETCH_USER_FROM_SESSION_SUCCEED,
+    FETCH_USER_FROM_SESSION_FAILED
 } from '../actions/user';
 
 const initialState = {
@@ -22,15 +25,18 @@ const user = (state = initialState, action) => {
     switch (action.type) {
         case FETCHING_USER: 
         case CREATING_USER:
+        case FETCHING_USER_FROM_SESSION:
             return {...state, error: false, fetching: true};
 
         case FETCH_USER_SUCCEED: 
         case CREATE_USER_SUCCEED:
+        case FETCH_USER_FROM_SESSION_SUCCEED:
             return {...state, userInfo: action.user, error: false, fetching: false, isAuthenticated: true};
 
         case FETCH_USER_FAILED:
         case CREATE_USER_FAILED:
-            return {...state, fetching: false, error: true, isAuthenticated: false};
+        case FETCH_USER_FROM_SESSION_FAILED:
+            return {...state, userInfo: {}, fetching: false, error: true, isAuthenticated: false};
 
         case LOGGING_OUT_USER: 
             return {...state, error: false, fetching: true};

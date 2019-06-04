@@ -19,8 +19,15 @@ async function addUser(db, user, req, res) {
     }
 }
 
+router.get('/', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.send(req.user);
+    } else {
+        res.status(401).end();
+    }
+});
+
 router.get('/logout', (req, res) => {
-    console.log('test');
     req.logout();
     res.end();
 });
