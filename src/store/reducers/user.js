@@ -16,7 +16,7 @@ import {
 
 const initialState = {
     userInfo: Cookies.getJSON('user_cookie'),
-    isAuthenticated: typeof Cookies.get('user_cookie') !== 'undefined',
+    isAuthenticated: typeof Cookies.get('user_cookie') !== 'undefined' ? Cookies.getJSON('user_cookie').isAuthenticated : false,
     fetching: false,
     error: false,
 }

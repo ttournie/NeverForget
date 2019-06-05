@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
@@ -10,18 +10,28 @@ import NavBar from './components/NavBar/NavBar';
 import { getUserFromSession } from './store/actions/user';
 import styles from './App.less';
 
-const ProtectedRoute = ({ isAllowed, ...props }) => 
-     isAllowed 
-     ? <Route {...props}/> 
-     : <Redirect to="/login"/>;
+const ProtectedRoute = ({ isAllowed, ...props }) => {
+  if (isAllowed === true ) return <Route {...props}/>
+  if (isAllowed === false ) return <Redirect to="/login"/>
+  else return null;
+}
 
 const App = ({isAuthenticated, getUserFromSession}) => {
+  const [isAllowed, setIsAllowed] = useState(null);
 
   useEffect(() => {
     if (isAuthenticated) {
       getUserFromSession();
     }
-  }, [isAuthenticated, getUserFromSession])
+  }, [getUserFromSession, isAuthenticated])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setIsAllowed(true);
+    } else {
+      setIsAllowed(false);
+    }
+  }, [isAuthenticated])
 
   return (
     <div className={styles.App}>
@@ -30,7 +40,7 @@ const App = ({isAuthenticated, getUserFromSession}) => {
           <Route exact path='/' component={NoteForm}/>
           <Route exact path='/login' component={LogginForm}/>
           <Route exact path='/subscribe' component={SubscribeForm}/>
-          <ProtectedRoute isAllowed={isAuthenticated} exact path='/my-page' component={MyPage}/>
+          <ProtectedRoute isAllowed={isAllowed} exact path='/my-page' component={MyPage}/>
         </Switch>
     </div>
   );

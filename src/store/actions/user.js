@@ -39,6 +39,7 @@ export const getUserFromSession = () => async(dispatch) => {
     try {
         const data = await get('/logged-user');
         dispatch(setUserFromSession(data));
+        Cookies.set('user_cookie',  { isAuthenticated: true }, { expires: 7 });
     } catch (err) {
         // The server session is not valid anymore so the cookie needs to be removed
         Cookies.remove('user_cookie');
@@ -55,7 +56,7 @@ export const login = ({username, password}) => async(dispatch) => {
         });
         const { data } = response;
         dispatch(setUserAfterLogin(data));
-        Cookies.set('user_cookie', data, { expires: 7 });
+        Cookies.set('user_cookie',  { isAuthenticated: true }, { expires: 7 });
     } catch (err) {
         dispatch({type: FETCH_USER_FAILED});
     }
@@ -82,7 +83,7 @@ export const createUser = ({username, password}) => async(dispatch) => {
         })
         const { data } = response;
         dispatch(setUserAfterSubscription(data));
-        Cookies.set('user_cookie', data, { expires: 7 });
+        Cookies.set('user_cookie', { isAuthenticated: true }, { expires: 7 });
     } catch (err) {
         dispatch({type: CREATE_USER_FAILED});
     }

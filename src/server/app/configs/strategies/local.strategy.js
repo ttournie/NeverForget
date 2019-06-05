@@ -14,7 +14,7 @@ module.exports = function localStrategy() {
         username,
       };
       try {
-        const userByUsername = await userModel.findOne(user);
+        const userByUsername = await userModel.findOne(user).lean();
         if (userByUsername) {
           const match = await bcrypt.compare(password, userByUsername.password);
           if (!match) {

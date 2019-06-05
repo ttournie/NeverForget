@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styles from './NavBar.less';
 import { logout } from '../../store/actions/user';
@@ -16,17 +16,17 @@ const NavBar = ({
 
     return (
         <div className={styles.navBar}>
-            <Link to='/' className={styles.link}>Home</Link>
+            <NavLink to='/' className={styles.link}>Home</NavLink>
             {!isAuthenticated &&
                 <>
-                    <Link to='/login' className={styles.link}>login</Link>
-                    <Link to='/subscribe' className={styles.link}>subscribe</Link>
+                    <NavLink to='/login' className={styles.link}>login</NavLink>
+                    <NavLink to='/subscribe' className={styles.link}>subscribe</NavLink>
                 </>
             }
             
             {isAuthenticated &&
                 <>
-                <Link to='/my-page' className={styles.link}>My Page</Link>
+                <NavLink to='/my-page' className={styles.link}>My Page</NavLink>
                 <button onClick={handelLogout}>Logout</button>
                 </>
             }
