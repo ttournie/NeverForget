@@ -1,8 +1,10 @@
 const passport = require('passport');
 const { Strategy } = require('passport-local');
 const bcrypt = require('bcrypt');
+const debug = require('debug')('app:passport-local');
+const userModel = require('../../../models/user');
 
-module.exports = function localStrategy(db) {
+module.exports = function localStrategy() {
   passport.use(new Strategy(
     {
       usernameField: 'username',
@@ -12,7 +14,7 @@ module.exports = function localStrategy(db) {
         username,
       };
       try {
-        const userByUsername = await db.collection('users').findOne(user);
+        const userByUsername = await userModel.findOne(user);
         if (userByUsername) {
           const match = await bcrypt.compare(password, userByUsername.password);
           if (!match) {
@@ -26,7 +28,7 @@ module.exports = function localStrategy(db) {
         }
       } catch (err) {
         done(null, false);
-        console.log(err.stack);
+        debug(err.stack);
       }
     },
   ));

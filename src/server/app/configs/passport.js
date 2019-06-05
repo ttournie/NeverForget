@@ -1,12 +1,11 @@
 const passport = require('passport');
 const ObjectId = require('mongodb').ObjectID;
 const debug = require('debug')('app:passport');
-const { getDb } = require('../mongo/database');
+const userModel = require('../../models/user');
 const local = require('./strategies/local.strategy');
 
 module.exports = function passportConfig(app) {
   debug('Initialize passport');
-  const db = getDb();
   app.use(passport.initialize());
   app.use(passport.session());
   passport.serializeUser((user, done) => {
@@ -16,11 +15,8 @@ module.exports = function passportConfig(app) {
 
   passport.deserializeUser((id, done) => {
     (async function userById() {
-      const userObject = {
-        _id: ObjectId(id),
-      };
       try {
-        const user = await db.collection('users').findOne(userObject);
+        const user = await userModel.find({ _id: ObjectId(id) });
         delete user.password;
         done(null, user);
       } catch (err) {
@@ -28,5 +24,5 @@ module.exports = function passportConfig(app) {
       }
     }());
   });
-  local(db);
+  local();
 };

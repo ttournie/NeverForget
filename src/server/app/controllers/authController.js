@@ -1,14 +1,14 @@
 const bcrypt = require('bcrypt');
 const debug = require('debug')('app:auth');
-const { getDb } = require('../mongo/database');
+const userModel = require('../../models/user');
 
 const saltRounds = 10;
 
-async function addUserAndLogin(db, user, req, res, next) {
+async function addUserAndLogin(user, req, res, next) {
   try {
-    const result = await db.collection('users').insertOne(user);
-    req.login(result.ops[0], () => {
-      res.json({ user: result.ops[0] });
+    const newUser = await userModel.create(user);
+    req.login(newUser, () => {
+      res.json({ user: newUser });
     });
     res.end();
   } catch (err) {
@@ -18,7 +18,6 @@ async function addUserAndLogin(db, user, req, res, next) {
 }
 
 function subscribe(req, res, next) {
-  const db = getDb();
   let { password } = req.body;
   bcrypt.hash(password, saltRounds,
     (err, hashedPassword) => {
@@ -30,7 +29,7 @@ function subscribe(req, res, next) {
           username: req.body.username,
           password: hashedPassword,
         };
-        addUserAndLogin(db, user, req, res, next);
+        addUserAndLogin(user, req, res, next);
       }
     });
 }

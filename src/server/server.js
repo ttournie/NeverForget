@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -10,7 +11,8 @@ const chalk = require('chalk');
 const debug = require('debug')('app');
 const authRouter = require('./app/routes/authRoutes');
 const passportAuth = require('./app/configs/passport');
-const { initDb } = require('./app/mongo/database');
+
+const URL = 'mongodb://localhost:27017/test';
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -44,8 +46,10 @@ app.use(helmet());
 
 app.use(express.static(path.join(__dirname, '/public/')));
 
-initDb((initDbError) => {
-  if (initDbError) return debug(initDbError);
+mongoose.connect(URL, { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on('error', () => debug('database connection error'));
+db.once('open', () => {
   passportAuth(app);
   app.use(authRouter);
 
@@ -60,5 +64,4 @@ initDb((initDbError) => {
   app.listen(port, () => {
     debug(`listening on port ${chalk.green(port)}`);
   });
-  return true;
 });
