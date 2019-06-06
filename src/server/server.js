@@ -40,7 +40,7 @@ app.disable('x-powered-by');
 app.use(limiter);
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
-app.use(morgan('combined'));
+app.use(morgan('tiny'));
 app.use(session(sessionOption));
 app.use(helmet());
 

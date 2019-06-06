@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import NoteForm from './components/NoteForm/NoteForm';
 import LogginForm from './components/LogginForm/LogginForm';
 import SubscribeForm from './components/SubscribeForm/SubscribeForm';
@@ -16,14 +16,14 @@ const ProtectedRoute = ({ isAllowed, ...props }) => {
   else return null;
 }
 
-const App = ({isAuthenticated, getUserFromSession}) => {
+const App = ({isAuthenticated, getUserFromSession, location}) => {
   const [isAllowed, setIsAllowed] = useState(null);
 
   useEffect(() => {
     if (isAuthenticated) {
       getUserFromSession();
     }
-  }, [getUserFromSession, isAuthenticated])
+  }, [location, getUserFromSession, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -54,4 +54,4 @@ const mapStateToProps = ({user}) => ({
   isAuthenticated: user.isAuthenticated
 })
 
-export default connect(mapStateToProps, {getUserFromSession})(App);
+export default withRouter(connect(mapStateToProps, {getUserFromSession})(App));
