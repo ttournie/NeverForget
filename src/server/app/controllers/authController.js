@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const debug = require('debug')('app:auth');
-const userModel = require('../../models/user');
+const userModel = require('../models/user');
 
 const saltRounds = 10;
 

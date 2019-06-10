@@ -11,6 +11,8 @@ const chalk = require('chalk');
 const debug = require('debug')('app');
 const authRouter = require('./app/routes/authRoutes');
 const passportAuth = require('./app/configs/passport');
+const noteRouter = require('./app/routes/noteRoutes');
+
 
 const URL = 'mongodb://localhost:27017/test';
 
@@ -52,6 +54,7 @@ db.on('error', () => debug('database connection error'));
 db.once('open', () => {
   passportAuth(app);
   app.use(authRouter);
+  app.use(noteRouter);
 
   app.use((err, req, res, next) => {
     debug(`error middleware called with ${err}`);

@@ -1,7 +1,7 @@
 const passport = require('passport');
 const ObjectId = require('mongodb').ObjectID;
 const debug = require('debug')('app:passport');
-const userModel = require('../../models/user');
+const userModel = require('../models/user');
 const local = require('./strategies/local.strategy');
 
 module.exports = function passportConfig(app) {
