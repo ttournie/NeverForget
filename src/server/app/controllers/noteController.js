@@ -70,7 +70,7 @@ async function getNote(req, res, next) {
 async function getAllNotes(req, res, next) {
   const { _id } = req.user;
   try {
-    const notes = await noteModel.findOne({ author: ObjectId(_id) });
+    const notes = await noteModel.find({ author: ObjectId(_id) });
     res.send(notes);
   } catch (err) {
     debug('error while getting list of notes');

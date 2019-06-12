@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect, withRouter } from 'react-router
 import NoteForm from './components/NoteForm/NoteForm';
 import LogginForm from './components/LogginForm/LogginForm';
 import SubscribeForm from './components/SubscribeForm/SubscribeForm';
-import MyPage from './components/MyPage/MyPage';
+import NoteList from './components/NoteList/NoteList';
 import NavBar from './components/NavBar/NavBar';
 import { getUserFromSession } from './store/actions/user';
 import styles from './App.less';
@@ -38,10 +38,10 @@ const App = ({isAuthenticated, getUserFromSession, location}) => {
         <NavBar/>
         <BrowserRouter>
           <Switch>
-            {/* <Route exact path='/' component={NoteForm}/> */}
+            <Route exact path='/' component={NoteForm}/>
             <Route exact path='/login' component={LogginForm}/>
             <Route exact path='/subscribe' component={SubscribeForm}/>
-            <ProtectedRoute isAllowed={isAllowed} exact path='/my-page' component={MyPage}/>
+            <ProtectedRoute isAllowed={isAllowed} exact path='/my-page' component={NoteList}/>
             <ProtectedRoute isAllowed={isAllowed} exact path='/createNote' component={NoteForm}/>
           </Switch>
         </BrowserRouter>

@@ -16,12 +16,12 @@ export const DELETE_NOTE_SUCCEED = 'DELETE_NOTE_SUCCEED';
 
 const setUserNotes = (notes) => ({
     type: FETCH_NOTES_SUCCEED,
-    note: notes,
+    notes: notes,
 })
 
 const setNote = (note) => ({
     type: FETCH_NOTES_SUCCEED,
-    note: [note],
+    notes: [note],
 })
 
 const setEditedNote = (note) => ({
