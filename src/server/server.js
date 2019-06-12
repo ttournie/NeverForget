@@ -54,7 +54,7 @@ db.on('error', () => debug('database connection error'));
 db.once('open', () => {
   passportAuth(app);
   app.use(authRouter);
-  app.use(noteRouter);
+  app.use('/notes', noteRouter);
 
   app.use((err, req, res, next) => {
     debug(`error middleware called with ${err}`);

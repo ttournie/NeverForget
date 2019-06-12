@@ -6,8 +6,8 @@
   "scripts": {
     "test": "mocha",
     "dev": "DEBUG=app,app:* nodemon server.js",
-    "lint": "eslint server.js",
-    "lint-fix": "eslint --fix server.js"
+    "lint": "eslint server.js app/**/*.js",
+    "lint-fix": "eslint --fix server.js app/**/*.js"
   },
   "author": "Thierry Tournie",
   "license": "ISC",
@@ -34,6 +34,7 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
+    "husky": "^2.4.1",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.0"
   },
@@ -42,6 +43,11 @@
     "env": {
       "NODE_ENV": "development",
       "PORT": 8000
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm lint"
     }
   }
 }

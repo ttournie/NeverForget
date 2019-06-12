@@ -23,3 +23,27 @@ export const post = (path, data, params) => {
       withCredentials: true,
     });
   }
+
+export const put = (path, data, params) => {
+  const url = `${config.apiUrl}${path}`;
+
+  return axios({
+    method: 'put',
+    url,
+    data,
+    params,
+    withCredentials: true,
+  });
+}
+
+export const deleteRequest = (path, data, params) => {
+  const url = `${config.apiUrl}${path}`;
+
+  return axios({
+    method: 'delete',
+    url,
+    data,
+    params,
+    withCredentials: true,
+  });
+}

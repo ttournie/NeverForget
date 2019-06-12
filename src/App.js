@@ -38,10 +38,11 @@ const App = ({isAuthenticated, getUserFromSession, location}) => {
         <NavBar/>
         <BrowserRouter>
           <Switch>
-            <Route exact path='/' component={NoteForm}/>
+            {/* <Route exact path='/' component={NoteForm}/> */}
             <Route exact path='/login' component={LogginForm}/>
             <Route exact path='/subscribe' component={SubscribeForm}/>
             <ProtectedRoute isAllowed={isAllowed} exact path='/my-page' component={MyPage}/>
+            <ProtectedRoute isAllowed={isAllowed} exact path='/createNote' component={NoteForm}/>
           </Switch>
         </BrowserRouter>
     </div>

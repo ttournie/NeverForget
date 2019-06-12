@@ -27,6 +27,7 @@ const NavBar = ({
             {isAuthenticated &&
                 <>
                 <NavLink to='/my-page' className={styles.link}>My Page</NavLink>
+                <NavLink to='/createNote' className={styles.link}>Add a note</NavLink>
                 <button onClick={handelLogout}>Logout</button>
                 </>
             }

@@ -13,11 +13,14 @@ async function createNote(note, req, res, next) {
 }
 
 function addNote(req, res, next) {
-  const { title, text, user } = req.body;
+  const { title, text } = req.body;
+  const { user } = req;
+  const { _id } = user;
+  debug(`adding note to user ${_id}`);
   const note = {
     title,
     text,
-    author: user,
+    author: _id,
   };
   createNote(note, req, res, next);
 }

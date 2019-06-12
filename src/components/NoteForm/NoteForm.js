@@ -1,29 +1,32 @@
 import React, {useState} from 'react';
-import config from '../../config/config';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addNote } from '../../store/actions/note';
 import styles from './NoteForm.less';
 
-const NoteForm = () => {
+const NoteForm = ({ addNote }) => {
     const [body, setBody] = useState('');
     const [title, setTitle] = useState('');
+    const [error, setError] = useState(null);
+
+    const formValidation = () => {
+        if (title === '' ) {
+            setError('title is required');
+            return false;
+        }
+        if (body === '') {
+            setError('body is required');
+            return false;
+        }
+        return true;
+    }
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch(`${config.apiUrl}/notes`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                body: JSON.stringify({
-                    title,
-                    body,
-                  })
-            });
-            console.log(response.statusText);
-        } catch(e) {
-            console.log(e);
-        }
+        setError(null);
+        if (formValidation()) {
+            addNote({title, body});
+        };
     }
 
     return (
@@ -36,8 +39,20 @@ const NoteForm = () => {
             <label htmlFor="body">Enter the note body</label>
             <input type="text" name="body" value={body} onChange={(e) => setBody(e.target.value)}/>
             <input type="submit" value="Submit" />
+            {error && <div>{error}</div>}
         </form>
     );
 };
 
-export default NoteForm;
+NoteForm.propTypes = {
+    fetching: PropTypes.bool,
+    error: PropTypes.bool,
+    addNote: PropTypes.func,
+};
+
+const mapStateToProps = ({ note }) => ({
+    fetching: note.fetching,
+    error: note.error,
+});
+
+export default connect(mapStateToProps, {addNote})(NoteForm);
