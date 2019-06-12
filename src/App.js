@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import HomePage from './components/HomePage/HomePage';
 import NoteForm from './components/NoteForm/NoteForm';
 import LogginForm from './components/LogginForm/LogginForm';
 import SubscribeForm from './components/SubscribeForm/SubscribeForm';
@@ -37,7 +38,7 @@ const App = ({isAuthenticated, getUserFromSession, location}) => {
     <div className={styles.App}>
         <NavBar/>
           <Switch>
-            <Route exact path='/' component={NoteForm}/>
+            <Route exact path='/' component={HomePage}/>
             <Route exact path='/login' component={LogginForm}/>
             <Route exact path='/subscribe' component={SubscribeForm}/>
             <ProtectedRoute isAllowed={isAllowed} exact path='/my-page' component={NoteList}/>
