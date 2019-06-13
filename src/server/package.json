@@ -43,10 +43,5 @@
       "NODE_ENV": "development",
       "PORT": 8000
     }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
   }
 }

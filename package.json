@@ -74,7 +74,8 @@
     "test": "node scripts/test.js",
     "webpack-test": "webpack-cli info",
     "lint": "eslint --ignore-pattern src/server src/*.js",
-    "lint-fix": "eslint --ignore-pattern src/server --fix src/*.js"
+    "lint-fix": "eslint --ignore-pattern src/server --fix src/*.js",
+    "lint-precommit": "lint-staged"
   },
   "browserslist": {
     "production": [
@@ -138,17 +139,17 @@
       "react-app"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-precommit"
+    }
+  },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "src/*.{js,jsx}": [
       "pretty-quick --staged",
       "eslint src/ --fix",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "devDependencies": {
     "eslint-config-airbnb": "^17.1.0",
