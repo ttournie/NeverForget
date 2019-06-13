@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getUserNotes } from '../../store/actions/note';
 
@@ -22,7 +23,7 @@ const NoteList = ({
                 <ul>
                     {notes.map(note => (
                         <li key={note._id}>
-                            {note.title} - {note.text}
+                            <Link to={`/note/${note._id}`}>{note.title}</Link> - {note.text}
                         </li>
                     ))}
                 </ul>

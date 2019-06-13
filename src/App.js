@@ -8,6 +8,7 @@ import LogginForm from './components/LogginForm/LogginForm';
 import SubscribeForm from './components/SubscribeForm/SubscribeForm';
 import NoteList from './components/NoteList/NoteList';
 import NavBar from './components/NavBar/NavBar';
+import NotePage from './components/NotePage/NotePage';
 import { getUserFromSession } from './store/actions/user';
 import styles from './App.less';
 
@@ -43,6 +44,7 @@ const App = ({isAuthenticated, getUserFromSession, location}) => {
             <Route exact path='/subscribe' component={SubscribeForm}/>
             <ProtectedRoute isAllowed={isAllowed} exact path='/my-page' component={NoteList}/>
             <ProtectedRoute isAllowed={isAllowed} exact path='/createNote' component={NoteForm}/>
+            <ProtectedRoute isAllowed={isAllowed} exact path="/note/:id" component={NotePage} />
           </Switch>
     </div>
   );
