@@ -1,13 +1,11 @@
 import React from 'react';
 import NoteForm from '../NoteForm/NoteForm';
 
-const AddNotePage = () => {
-    return (
-        <div>
+const AddNotePage = () => (
+  <div>
             Add a new note
-            <NoteForm/>
-        </div>
-    )
-}
+    <NoteForm />
+  </div>
+);
 
 export default AddNotePage;

@@ -73,8 +73,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "webpack-test": "webpack-cli info",
-    "lint": "eslint --ignore-pattern src/server src/*.js",
-    "lint-fix": "eslint --ignore-pattern src/server --fix src/*.js",
+    "lint": "eslint --ext .jsx --ext .js --ignore-pattern '/src/server/' src/",
+    "lint-fix": "eslint --fix --ext .jsx --ext .js --ignore-pattern '/src/server/' src/",
     "precommit": "lint-staged"
   },
   "browserslist": {

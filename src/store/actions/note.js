@@ -1,4 +1,6 @@
-import {get, post, put, deleteRequest} from '../../utils/api';
+import {
+  get, post, put, deleteRequest,
+} from '../../utils/api';
 
 // Action type
 export const FETCHING_NOTES = 'FETCHING_NOTE';
@@ -14,85 +16,84 @@ export const DELETING_NOTE = 'DELETING_NOTE';
 export const DELETE_NOTE_FAILED = 'DELETE_NOTE_FAILED';
 export const DELETE_NOTE_SUCCEED = 'DELETE_NOTE_SUCCEED';
 
-const setUserNotes = (notes) => ({
-    type: FETCH_NOTES_SUCCEED,
-    notes: notes,
-})
+const setUserNotes = notes => ({
+  type: FETCH_NOTES_SUCCEED,
+  notes,
+});
 
-const setNote = (note) => ({
-    type: FETCH_NOTES_SUCCEED,
-    notes: [note],
-})
+const setNote = note => ({
+  type: FETCH_NOTES_SUCCEED,
+  notes: [note],
+});
 
-const setEditedNote = (note) => ({
-    type: EDIT_NOTE_SUCCEED,
-    notes: [note],
-})
+const setEditedNote = note => ({
+  type: EDIT_NOTE_SUCCEED,
+  notes: [note],
+});
 
-const createNote = (note) => ({
-    type: CREATE_NOTE_SUCCEED,
-    notes: [note],
-})
+const createNote = note => ({
+  type: CREATE_NOTE_SUCCEED,
+  notes: [note],
+});
 
 const deleteNoteSucess = () => ({
-    type: DELETE_NOTE_SUCCEED,
-})
+  type: DELETE_NOTE_SUCCEED,
+});
 
-export const getUserNotes = () => async(dispatch) => {
-    dispatch({type: FETCHING_NOTES});
-    try {
-        const data = await get('/notes');
-        dispatch(setUserNotes(data));
-    } catch (err) {
-        dispatch({type: FETCH_NOTES_FAILED});
-    }
-}
+export const getUserNotes = () => async (dispatch) => {
+  dispatch({ type: FETCHING_NOTES });
+  try {
+    const data = await get('/notes');
+    dispatch(setUserNotes(data));
+  } catch (err) {
+    dispatch({ type: FETCH_NOTES_FAILED });
+  }
+};
 
-export const getNote = (id) => async(dispatch) => {
-    dispatch({type: FETCHING_NOTES});
-    try {
-        const response = await get(`/notes/${id}`);
-        dispatch(setNote(response));
-    } catch (err) {
-        dispatch({type: FETCH_NOTES_FAILED});
-    }
-}
+export const getNote = id => async (dispatch) => {
+  dispatch({ type: FETCHING_NOTES });
+  try {
+    const response = await get(`/notes/${id}`);
+    dispatch(setNote(response));
+  } catch (err) {
+    dispatch({ type: FETCH_NOTES_FAILED });
+  }
+};
 
-export const editNote = ({id, title, body}) => async(dispatch) => {
-    dispatch({type: EDITING_NOTE});
-    try {
-        const response = await put(`/notes/${id}`, {
-            title,
-            text: body
-        });
-        const { data } = response;
-        dispatch(setEditedNote(data));
-    } catch (err) {
-        dispatch({type: EDIT_NOTE_FAILED});
-    }
-}
+export const editNote = ({ id, title, body }) => async (dispatch) => {
+  dispatch({ type: EDITING_NOTE });
+  try {
+    const response = await put(`/notes/${id}`, {
+      title,
+      text: body,
+    });
+    const { data } = response;
+    dispatch(setEditedNote(data));
+  } catch (err) {
+    dispatch({ type: EDIT_NOTE_FAILED });
+  }
+};
 
-export const deleteNote = (id) => async(dispatch) => {
-    dispatch({type: DELETING_NOTE});
-    try {
-        await deleteRequest(`/notes/${id}`);
-        dispatch(deleteNoteSucess());
-    } catch (err) {
-        console.log(err)
-        dispatch({type: DELETE_NOTE_FAILED});
-    }
-}
+export const deleteNote = id => async (dispatch) => {
+  dispatch({ type: DELETING_NOTE });
+  try {
+    await deleteRequest(`/notes/${id}`);
+    dispatch(deleteNoteSucess());
+  } catch (err) {
+    dispatch({ type: DELETE_NOTE_FAILED });
+  }
+};
 
-export const addNote = ({title, body}) => async(dispatch) => {
-    dispatch({type: CREATING_NOTE});
-    try {
-        const response = await post('/notes/', {
-            title,
-            text: body
-        })
-        const { data } = response;
-        dispatch(createNote(data));
-    } catch (err) {
-        dispatch({type: CREATE_NOTE_FAILED});
-    }
-}
+export const addNote = ({ title, body }) => async (dispatch) => {
+  dispatch({ type: CREATING_NOTE });
+  try {
+    const response = await post('/notes/', {
+      title,
+      text: body,
+    });
+    const { data } = response;
+    dispatch(createNote(data));
+  } catch (err) {
+    dispatch({ type: CREATE_NOTE_FAILED });
+  }
+};

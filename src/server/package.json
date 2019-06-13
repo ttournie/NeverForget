@@ -7,7 +7,6 @@
     "test": "mocha",
     "dev": "DEBUG=app,app:* nodemon server.js",
     "lint": "eslint server.js app/**/*.js",
-    "lint-fix": "eslint --fix server.js app/**/*.js",
     "precommit": "lint-staged"
   },
   "author": "Thierry Tournie",

@@ -6,42 +6,45 @@ import styles from './NavBar.less';
 import { logout } from '../../store/actions/user';
 
 const NavBar = ({
-    isAuthenticated,
-    logout
+  isAuthenticated,
+  logout: logoutAction,
 }) => {
+  const handelLogout = () => {
+    logoutAction();
+  };
 
-    const handelLogout = () => {
-        logout();
-    }
+  return (
+    <div className={styles.navBar}>
+      <NavLink to="/" className={styles.link}>Home</NavLink>
+      {!isAuthenticated
+                && (
+                <>
+                  <NavLink to="/login" className={styles.link}>login</NavLink>
+                  <NavLink to="/subscribe" className={styles.link}>subscribe</NavLink>
+                </>
+                )
+            }
 
-    return (
-        <div className={styles.navBar}>
-            <NavLink to='/' className={styles.link}>Home</NavLink>
-            {!isAuthenticated &&
+      {isAuthenticated
+                && (
                 <>
-                    <NavLink to='/login' className={styles.link}>login</NavLink>
-                    <NavLink to='/subscribe' className={styles.link}>subscribe</NavLink>
+                  <NavLink to="/my-page" className={styles.link}>My Page</NavLink>
+                  <NavLink to="/createNote" className={styles.link}>Add a note</NavLink>
+                  <button type="button" onClick={handelLogout}>Logout</button>
                 </>
+                )
             }
-            
-            {isAuthenticated &&
-                <>
-                <NavLink to='/my-page' className={styles.link}>My Page</NavLink>
-                <NavLink to='/createNote' className={styles.link}>Add a note</NavLink>
-                <button onClick={handelLogout}>Logout</button>
-                </>
-            }
-        </div>
-    )
+    </div>
+  );
 };
 
 NavBar.propTypes = {
-    isLoggedIn: PropTypes.bool,
-    logout: PropTypes.func,
+  isAuthenticated: PropTypes.bool,
+  logout: PropTypes.func,
 };
 
-const mapStateToProps = ({user}) => ({
-    isAuthenticated: user.isAuthenticated,
+const mapStateToProps = ({ user }) => ({
+  isAuthenticated: user.isAuthenticated,
 });
 
-export default connect(mapStateToProps, {logout})(NavBar);
+export default connect(mapStateToProps, { logout })(NavBar);
