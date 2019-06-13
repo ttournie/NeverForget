@@ -79,6 +79,7 @@ export const deleteNote = id => async (dispatch) => {
   try {
     await deleteRequest(`/notes/${id}`);
     dispatch(deleteNoteSucess());
+    dispatch(getUserNotes());
   } catch (err) {
     dispatch({ type: DELETE_NOTE_FAILED });
   }

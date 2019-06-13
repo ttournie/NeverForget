@@ -2,18 +2,23 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getUserNotes } from '../../store/actions/note';
+import { getUserNotes, deleteNote } from '../../store/actions/note';
 
 const NoteList = ({
   fetching,
   error,
   notes,
   getUserNotes: getUserNotesAction,
+  deleteNote: deleteNoteAction,
 }) => {
   useEffect(() => {
     getUserNotesAction();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleDelete = (id) => {
+    deleteNoteAction(id);
+  };
 
   return (
     <>
@@ -30,6 +35,7 @@ const NoteList = ({
                         {' '}
                           -
                         {note.text}
+                        <button type="button" onClick={() => handleDelete(id)}>delete</button>
                       </li>
                     );
                   })}
@@ -45,6 +51,7 @@ NoteList.propTypes = {
   error: PropTypes.bool,
   notes: PropTypes.arrayOf(PropTypes.object),
   getUserNotes: PropTypes.func,
+  deleteNote: PropTypes.func,
 };
 
 const MapStateToProps = ({ note }) => ({
@@ -53,4 +60,4 @@ const MapStateToProps = ({ note }) => ({
   notes: note.notes,
 });
 
-export default connect(MapStateToProps, { getUserNotes })(NoteList);
+export default connect(MapStateToProps, { getUserNotes, deleteNote })(NoteList);

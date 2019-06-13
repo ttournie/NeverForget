@@ -44,10 +44,15 @@ async function editNote(req, res, next) {
 }
 
 async function deleteNote(req, res, next) {
-  const { _id } = req.body;
+  const { id } = req.params;
   try {
-    await noteModel.deleteOne({ _id: ObjectId(_id) });
-    res.end();
+    const response = await noteModel.deleteOne({ _id: ObjectId(id) });
+    if (response.ok === 1) {
+      res.end();
+    } else {
+      const err = 'error while deleting note';
+      next(err);
+    }
   } catch (err) {
     debug('error while deleting note');
     next(err);
