@@ -73,10 +73,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "webpack-test": "webpack-cli info",
-    "lint": "eslint src/**/*.js src/**/*.jsx"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "lint": "eslint --ignore-pattern src/server src/*.js",
+    "lint-fix": "eslint --ignore-pattern src/server --fix src/*.js"
   },
   "browserslist": {
     "production": [
@@ -146,6 +144,8 @@
     }
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
     "husky": "^2.4.1",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",

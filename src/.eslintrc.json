@@ -1,5 +1,5 @@
 {
-  "extends": "react-app",
+  "extends": "airbnb",
   "env": {
     "browser": true,
     "commonjs": true,
@@ -10,6 +10,10 @@
     "ecmaVersion": 2018
   },
   "rules": {
-    "strict": ["error", "global"]
+    "strict": ["error", "global"],
+    "import/no-extraneous-dependencies": 0,
+    "react/require-default-props": [0],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/forbid-prop-types": [2, { "forbid": ["any", "array"] }]
   }
 }
