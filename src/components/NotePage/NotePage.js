@@ -1,23 +1,26 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import * as R from 'ramda';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getNote } from '../../store/actions/note';
 
-const NotePage = ({match, note, fetching, error}) => {
+const NotePage = ({match, note, getNote, fetching, error}) => {
     useEffect(() => {
         getNote(match.params.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
-
+    
     return (
         <>
-            {!fetching && !error &&
+            {!R.isEmpty(note) &&
                 <div>
                     <div>
-                        {note[0].title}
+                        {note.title}
+                        <Link to={`/note/edit/${note._id}`}>Edit</Link>
                     </div>
                     <div>
-                        {note[0].text}
+                        {note.text}
                     </div>
                 </div>
             }
@@ -28,13 +31,13 @@ const NotePage = ({match, note, fetching, error}) => {
 NotePage.propTypes = {
     fetching: PropTypes.bool,
     error: PropTypes.bool,
-    note: PropTypes.arrayOf(PropTypes.object),
+    note: PropTypes.object,
 }
 
 const MapStateToProps = ({ note }) => ({
     fetching: note.fetching,
     error: note.error,
-    note: note.notes,
+    note: note.notes.length > 0 ? note.notes[0] : {},
 });
 
 export default connect(MapStateToProps, {getNote})(NotePage)

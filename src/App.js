@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage';
-import NoteForm from './components/NoteForm/NoteForm';
+import AddNotePage from './components/AddNodePage/AddNotePage';
 import LogginForm from './components/LogginForm/LogginForm';
 import SubscribeForm from './components/SubscribeForm/SubscribeForm';
 import NoteList from './components/NoteList/NoteList';
 import NavBar from './components/NavBar/NavBar';
 import NotePage from './components/NotePage/NotePage';
+import EditNotePage from './components/EditNotePage/EditNotePage';
 import { getUserFromSession } from './store/actions/user';
 import styles from './App.less';
 
@@ -43,8 +44,9 @@ const App = ({isAuthenticated, getUserFromSession, location}) => {
             <Route exact path='/login' component={LogginForm}/>
             <Route exact path='/subscribe' component={SubscribeForm}/>
             <ProtectedRoute isAllowed={isAllowed} exact path='/my-page' component={NoteList}/>
-            <ProtectedRoute isAllowed={isAllowed} exact path='/createNote' component={NoteForm}/>
+            <ProtectedRoute isAllowed={isAllowed} exact path='/createNote' component={AddNotePage}/>
             <ProtectedRoute isAllowed={isAllowed} exact path="/note/:id" component={NotePage} />
+            <ProtectedRoute isAllowed={isAllowed} exact path="/note/edit/:id" component={EditNotePage} />
           </Switch>
     </div>
   );

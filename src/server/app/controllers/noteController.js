@@ -26,17 +26,15 @@ function addNote(req, res, next) {
 }
 
 async function editNote(req, res, next) {
+  const { id } = req.params;
   const {
-    _id,
     title,
     text,
-    user,
   } = req.body;
   try {
-    const oldNote = await noteModel.findOne({ _id: ObjectId(_id) });
+    const oldNote = await noteModel.findOne({ _id: ObjectId(id) });
     oldNote.title = title;
     oldNote.text = text;
-    oldNote.author = user;
     const editedNote = await oldNote.save();
     res.send(editedNote);
   } catch (err) {

@@ -26,12 +26,12 @@ const setNote = (note) => ({
 
 const setEditedNote = (note) => ({
     type: EDIT_NOTE_SUCCEED,
-    note: [note],
+    notes: [note],
 })
 
 const createNote = (note) => ({
     type: CREATE_NOTE_SUCCEED,
-    note,
+    notes: [note],
 })
 
 const deleteNoteSucess = () => ({
@@ -52,17 +52,20 @@ export const getNote = (id) => async(dispatch) => {
     dispatch({type: FETCHING_NOTES});
     try {
         const response = await get(`/notes/${id}`);
-        const { data } = response;
-        dispatch(setNote(data));
+        dispatch(setNote(response));
     } catch (err) {
         dispatch({type: FETCH_NOTES_FAILED});
     }
 }
 
-export const editNote = (id) => async(dispatch) => {
+export const editNote = ({id, title, body}) => async(dispatch) => {
     dispatch({type: EDITING_NOTE});
     try {
-        const data = await put(`/notes/${id}`);
+        const response = await put(`/notes/${id}`, {
+            title,
+            text: body
+        });
+        const { data } = response;
         dispatch(setEditedNote(data));
     } catch (err) {
         dispatch({type: EDIT_NOTE_FAILED});

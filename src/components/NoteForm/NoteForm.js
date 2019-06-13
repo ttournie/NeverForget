@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addNote } from '../../store/actions/note';
+import * as R from 'ramda';
+import { addNote, editNote } from '../../store/actions/note';
 import styles from './NoteForm.less';
 
-const NoteForm = ({ addNote }) => {
-    const [body, setBody] = useState('');
-    const [title, setTitle] = useState('');
+const NoteForm = ({ addNote, editNote ,note }) => {
+    const [body, setBody] = useState(!R.isEmpty(note) ? note.text : '');
+    const [title, setTitle] = useState(!R.isEmpty(note) ? note.title : '');
     const [error, setError] = useState(null);
 
     const formValidation = () => {
@@ -25,7 +26,12 @@ const NoteForm = ({ addNote }) => {
         e.preventDefault();
         setError(null);
         if (formValidation()) {
-            addNote({title, body});
+            if (!R.isEmpty(note)) {
+                const { _id } = note;
+                editNote({id: _id, title, body})
+            } else {
+                addNote({title, body});
+            }
         };
     }
 
@@ -44,10 +50,15 @@ const NoteForm = ({ addNote }) => {
     );
 };
 
+NoteForm.defaultProps = {
+    note: {},
+  };
+
 NoteForm.propTypes = {
     fetching: PropTypes.bool,
     error: PropTypes.bool,
     addNote: PropTypes.func,
+    note: PropTypes.object,
 };
 
 const mapStateToProps = ({ note }) => ({
@@ -55,4 +66,4 @@ const mapStateToProps = ({ note }) => ({
     error: note.error,
 });
 
-export default connect(mapStateToProps, {addNote})(NoteForm);
+export default connect(mapStateToProps, {addNote, editNote})(NoteForm);
