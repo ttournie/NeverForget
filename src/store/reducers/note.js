@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {
   FETCHING_NOTES,
   FETCH_NOTES_FAILED,
@@ -27,11 +28,16 @@ const note = (state = initialState, action) => {
     case DELETING_NOTE:
       return { ...state, error: false, fetching: true };
 
+    case CREATE_NOTE_SUCCEED:
     case FETCH_NOTES_SUCCEED:
     case EDIT_NOTE_SUCCEED:
-    case CREATE_NOTE_SUCCEED:
+      if (Array.isArray(action.payload)) {
+        return {
+          ...state, notes: action.payload, error: false, fetching: false,
+        };
+      }
       return {
-        ...state, notes: action.notes, error: false, fetching: false,
+        ...state, notes: [action.payload], error: false, fetching: false,
       };
 
     case FETCH_NOTES_FAILED:
@@ -40,8 +46,15 @@ const note = (state = initialState, action) => {
     case DELETE_NOTE_FAILED:
       return { ...state, fetching: false, error: true };
 
-    case DELETE_NOTE_SUCCEED:
-      return { ...state, error: false, fetching: false };
+    case DELETE_NOTE_SUCCEED: {
+      const nodeList = state.notes.filter(noteItem => noteItem._id !== action.payload.id);
+      return {
+        ...state,
+        notes: nodeList,
+        error: false,
+        fetching: false,
+      };
+    }
 
     default:
       return state;
