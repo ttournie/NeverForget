@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import styles from './NoteList.less';
 import { getUserNotes, deleteNote, resetError } from '../../store/actions/note';
 
 const NoteList = ({
@@ -30,7 +31,7 @@ const NoteList = ({
       {error && <div> error fetching notes </div>}
       {!error && !fetching
                 && (
-                <ul>
+                <ul className={styles.list}>
                   {notes.map((note) => {
                     const { _id: id } = note;
                     return (
