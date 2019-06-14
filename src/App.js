@@ -25,14 +25,8 @@ ProtectedRoute.propTypes = {
   isAllowed: PropTypes.bool,
 };
 
-const App = ({ isAuthenticated, getUserFromSession: getUserFromSessionAction, location }) => {
+const App = ({ isAuthenticated }) => {
   const [isAllowed, setIsAllowed] = useState(null);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getUserFromSessionAction();
-    }
-  }, [location, getUserFromSessionAction, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -60,8 +54,6 @@ const App = ({ isAuthenticated, getUserFromSession: getUserFromSessionAction, lo
 
 App.propTypes = {
   isAuthenticated: PropTypes.bool,
-  getUserFromSession: PropTypes.func,
-  location: PropTypes.object,
 };
 
 const mapStateToProps = ({ user }) => ({

@@ -16,6 +16,7 @@ export const CREATE_NOTE_SUCCEED = 'CREATE_NOTE_SUCCEED';
 export const DELETING_NOTE = 'DELETING_NOTE';
 export const DELETE_NOTE_FAILED = 'DELETE_NOTE_FAILED';
 export const DELETE_NOTE_SUCCEED = 'DELETE_NOTE_SUCCEED';
+export const RESET_NOTE_ERROR = 'RESET_NOTE_ERROR';
 
 export const fetchNote = async (id) => {
   const data = await get(`/notes/${id}`);
@@ -57,3 +58,7 @@ export const deleteNote = asyncActionCreator({
   complete: DELETE_NOTE_SUCCEED,
   error: DELETE_NOTE_FAILED,
 }, id => deleteRequest(`/notes/${id}`));
+
+export const resetError = () => ({
+  type: RESET_NOTE_ERROR,
+});

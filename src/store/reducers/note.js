@@ -12,6 +12,7 @@ import {
   DELETING_NOTE,
   DELETE_NOTE_FAILED,
   DELETE_NOTE_SUCCEED,
+  RESET_NOTE_ERROR,
 } from '../actions/note';
 
 const initialState = {
@@ -55,6 +56,9 @@ const note = (state = initialState, action) => {
         fetching: false,
       };
     }
+
+    case RESET_NOTE_ERROR:
+      return { ...state, error: false };
 
     default:
       return state;

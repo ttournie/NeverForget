@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as R from 'ramda';
-import { addNote, editNote } from '../../store/actions/note';
+import { addNote, editNote, resetError } from '../../store/actions/note';
 import styles from './NoteForm.less';
 
 const NoteForm = ({
@@ -10,15 +10,22 @@ const NoteForm = ({
   error: serverError,
   addNote: addNoteAction,
   editNote: editNoteAction,
+  resetError: resetErrorAction,
   note,
 }) => {
   const [body, setBody] = useState(!R.isEmpty(note) ? note.text : '');
   const [title, setTitle] = useState(!R.isEmpty(note) ? note.title : '');
   const [error, setError] = useState(null);
 
+  useEffect(() => () => {
+    resetErrorAction();
+  }, []);
+
   useEffect(() => {
     if (serverError) {
       setError('Error while adding/Editing');
+    } else {
+      setError(null);
     }
   }, [serverError]);
 
@@ -72,6 +79,7 @@ NoteForm.propTypes = {
   addNote: PropTypes.func,
   note: PropTypes.object,
   editNote: PropTypes.func,
+  resetError: PropTypes.func,
 };
 
 const mapStateToProps = ({ note }) => ({
@@ -79,4 +87,4 @@ const mapStateToProps = ({ note }) => ({
   error: note.error,
 });
 
-export default connect(mapStateToProps, { addNote, editNote })(NoteForm);
+export default connect(mapStateToProps, { addNote, editNote, resetError })(NoteForm);
