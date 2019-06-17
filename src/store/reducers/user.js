@@ -12,6 +12,7 @@ import {
   FETCHING_USER_FROM_SESSION,
   FETCH_USER_FROM_SESSION_SUCCEED,
   FETCH_USER_FROM_SESSION_FAILED,
+  RESET_NOTE_ERROR,
 } from '../actions/user';
 
 const initialState = {
@@ -32,7 +33,7 @@ const user = (state = initialState, action) => {
     case CREATE_USER_SUCCEED:
     case FETCH_USER_FROM_SESSION_SUCCEED:
       return {
-        ...state, userInfo: action.user, error: false, fetching: false, isAuthenticated: true,
+        ...state, userInfo: action.payload, error: false, fetching: false, isAuthenticated: true,
       };
 
     case FETCH_USER_FAILED:
@@ -53,6 +54,8 @@ const user = (state = initialState, action) => {
     case LOG_OUT_USER_FAILED:
       return { ...state, fetching: false, error: true };
 
+    case RESET_NOTE_ERROR:
+      return { ...state, error: false };
 
     default:
       return state;

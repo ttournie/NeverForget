@@ -10,6 +10,7 @@ const EditNotePage = ({ match, note, getNote: getNoteAction }) => {
     getNoteAction(match.params.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div>
       {!R.isEmpty(note) && <NoteForm note={note} />}

@@ -15,6 +15,7 @@ export const CREATE_USER_SUCCEED = 'CREATE_USER_SUCCEED';
 export const FETCHING_USER_FROM_SESSION = 'FETCHING_USER_FROM_SESSION';
 export const FETCH_USER_FROM_SESSION_FAILED = 'FETCH_USER_FROM_SESSION_FAILED';
 export const FETCH_USER_FROM_SESSION_SUCCEED = 'FETCH_USER_FROM_SESSION_SUCCEED';
+export const RESET_NOTE_ERROR = 'RESET_NOTE_ERROR';
 
 export const login = asyncActionCreator({
   pending: FETCHING_USER,
@@ -40,9 +41,9 @@ export const createUser = asyncActionCreator({
   password,
 }), () => Cookies.set('user_cookie', { isAuthenticated: true }, { expires: 7 }));
 
-const setUserFromSession = user => ({
+const setUserFromSession = payload => ({
   type: FETCH_USER_FROM_SESSION_SUCCEED,
-  user,
+  payload,
 });
 
 export const getUserFromSession = () => async (dispatch) => {
@@ -50,10 +51,13 @@ export const getUserFromSession = () => async (dispatch) => {
   try {
     const data = await get('/logged-user');
     dispatch(setUserFromSession(data));
-    Cookies.set('user_cookie', { isAuthenticated: true }, { expires: 7 });
   } catch (err) {
     // The server session is not valid anymore so the cookie needs to be removed
     Cookies.remove('user_cookie');
     dispatch({ type: FETCH_USER_FROM_SESSION_FAILED });
   }
 };
+
+export const resetError = () => ({
+  type: RESET_NOTE_ERROR,
+});

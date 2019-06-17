@@ -2,17 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
-import { login } from '../../store/actions/user';
+import { login, resetError } from '../../store/actions/user';
 
 const LogginForm = ({
   fetchinError,
   fetching,
   login: loginAction,
+  resetError: resetErrorAction,
   isAuthenticated,
 }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+
+  useEffect(() => () => {
+    resetErrorAction();
+  }, []);
 
   useEffect(() => {
     if (fetchinError) {
@@ -63,6 +68,7 @@ LogginForm.propTypes = {
   fetching: PropTypes.bool,
   login: PropTypes.func,
   isAuthenticated: PropTypes.bool,
+  resetError: PropTypes.bool,
 };
 
 const mapStateToProps = ({ user }) => ({
@@ -72,4 +78,4 @@ const mapStateToProps = ({ user }) => ({
 });
 
 export default connect(mapStateToProps,
-  { login })(LogginForm);
+  { login, resetError })(LogginForm);

@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createUser } from '../../store/actions/user';
+import { createUser, resetError } from '../../store/actions/user';
 
 const SubscribeForm = ({
   fetchinError,
   fetching,
   isAuthenticated,
   createUser: creatUserAction,
+  resetError: resetErrorAction,
 }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState(null);
+
+  useEffect(() => () => {
+    resetErrorAction();
+  }, []);
 
   useEffect(() => {
     if (fetchinError) {
@@ -70,6 +75,7 @@ SubscribeForm.propTypes = {
   fetching: PropTypes.bool,
   isAuthenticated: PropTypes.bool,
   createUser: PropTypes.func,
+  resetError: PropTypes.func,
 };
 
 const mapStateToProps = ({ user }) => ({
@@ -78,4 +84,4 @@ const mapStateToProps = ({ user }) => ({
   isAuthenticated: user.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { createUser })(SubscribeForm);
+export default connect(mapStateToProps, { createUser, resetError })(SubscribeForm);
