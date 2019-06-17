@@ -15,6 +15,7 @@ import EditNotePage from './components/EditNotePage/EditNotePage';
 import { getUserFromSession } from './store/actions/user';
 import styles from './App.less';
 
+
 const ProtectedRoute = ({ isAllowed, ...props }) => {
   if (isAllowed === true) return <Route {...props} />;
   if (isAllowed === false) return <Redirect to="/login" />;
@@ -25,8 +26,14 @@ ProtectedRoute.propTypes = {
   isAllowed: PropTypes.bool,
 };
 
-const App = ({ isAuthenticated }) => {
+const App = ({ isAuthenticated, getUserFromSession: getUserFromSessionAction, location }) => {
   const [isAllowed, setIsAllowed] = useState(null);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getUserFromSessionAction();
+    }
+  }, [location, getUserFromSessionAction, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -54,6 +61,8 @@ const App = ({ isAuthenticated }) => {
 
 App.propTypes = {
   isAuthenticated: PropTypes.bool,
+  getUserFromSession: PropTypes.func,
+  location: PropTypes.object,
 };
 
 const mapStateToProps = ({ user }) => ({
