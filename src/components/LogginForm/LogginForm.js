@@ -68,7 +68,7 @@ LogginForm.propTypes = {
   fetching: PropTypes.bool,
   login: PropTypes.func,
   isAuthenticated: PropTypes.bool,
-  resetError: PropTypes.bool,
+  resetError: PropTypes.func,
 };
 
 const mapStateToProps = ({ user }) => ({
