@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -9,12 +8,10 @@ const rateLimit = require('express-rate-limit');
 const path = require('path');
 const chalk = require('chalk');
 const debug = require('debug')('app');
+const db = require('./app/configs/mongo');
 const authRouter = require('./app/routes/authRoutes');
 const passportAuth = require('./app/configs/passport');
 const noteRouter = require('./app/routes/noteRoutes');
-
-
-const URL = 'mongodb://localhost:27017/test';
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -38,6 +35,8 @@ const sessionOption = {
 const app = express();
 const port = process.env.PORT || 8000;
 
+db.on('error', () => debug('database connection error'));
+
 app.disable('x-powered-by');
 app.use(limiter);
 app.use(bodyParser.json());
@@ -45,26 +44,24 @@ app.use(cors(corsOptions));
 app.use(morgan('tiny'));
 app.use(session(sessionOption));
 app.use(helmet());
-
 app.use(express.static(path.join(__dirname, '/public/')));
 
-mongoose.connect(URL, { useNewUrlParser: true });
-const db = mongoose.connection;
-db.on('error', () => debug('database connection error'));
+passportAuth(app);
+app.use(authRouter);
+app.use('/notes', noteRouter);
+
+app.use((err, req, res, next) => {
+  debug(`error middleware called with ${err}`);
+  const handledError = { ...err };
+  if (!err.statusCode) handledError.statusCode = 500;
+  res.status(handledError.statusCode).send(handledError.message);
+  next(err);
+});
+
 db.once('open', () => {
-  passportAuth(app);
-  app.use(authRouter);
-  app.use('/notes', noteRouter);
-
-  app.use((err, req, res, next) => {
-    debug(`error middleware called with ${err}`);
-    const handledError = { ...err };
-    if (!err.statusCode) handledError.statusCode = 500;
-    res.status(handledError.statusCode).send(handledError.message);
-    next(err);
-  });
-
   app.listen(port, () => {
     debug(`listening on port ${chalk.green(port)}`);
   });
 });
+
+module.exports = app;

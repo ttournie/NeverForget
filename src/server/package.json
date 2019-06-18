@@ -4,7 +4,7 @@
   "description": "Simple Api for practice",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "NODE_ENV=test mocha",
     "dev": "DEBUG=app,app:* nodemon server.js",
     "lint": "eslint server.js app/**/*.js",
     "lint-fix": "eslint --fix --ext .jsx --ext .js app",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
