@@ -76,4 +76,16 @@ describe('authController', () => {
       send.should.have.been.calledWith(testUser);
     });
   });
+  describe('Logout', () => {
+    it('Should logout', () => {
+      const req = {
+        logout: sinon.spy(),
+      };
+      const res = {
+        end: sinon.stub,
+      };
+      controller.logout(req, res);
+      req.logout.should.have.been.called;
+    });
+  });
 });
