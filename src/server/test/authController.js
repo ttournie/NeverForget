@@ -8,13 +8,15 @@ chai.should();
 
 describe('authController', () => {
   describe('Subscribe', () => {
-    it('Should return 200', (done) => {
+    it('Should return 200 and the created user', (done) => {
       chai.request(app)
         .post('/subscribe')
         .set('content-type', 'application/json')
         .send({ username: 'testUser', password: 'testPassword' })
         .end((err, res) => {
           res.should.have.status(200);
+          res.body.user.should.be.a('object');
+          res.body.user.should.have.property('username', 'testUser');
           done();
         });
     });
@@ -30,13 +32,14 @@ describe('authController', () => {
           done();
         });
     });
-    it('Should return 200', (done) => {
+    it('Should return 200 and the logged user', (done) => {
       chai.request(app)
         .post('/login')
         .set('content-type', 'application/json')
         .send({ username: 'testUser', password: 'testPassword' })
         .end((err, res) => {
           res.should.have.status(200);
+          res.body.should.have.property('username', 'testUser');
           done();
         });
     });
