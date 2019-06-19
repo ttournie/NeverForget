@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import {
+  TextField,
+  Button,
+  Typography,
+} from '@material-ui/core';
 import { createUser, resetError } from '../../store/actions/user';
+import styles from './SubscribeForm.less';
 
 const SubscribeForm = ({
   fetchinError,
@@ -57,14 +63,17 @@ const SubscribeForm = ({
         onSubmit={handelSubmit}
         noValidate
       >
-        <label htmlFor="username">Username</label>
-        <input type="text" name="username" placeholder="username" required value={username} onChange={e => setUsername(e.target.value)} />
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" placeholder="" required value={password} onChange={e => setPassword(e.target.value)} />
-        <label htmlFor="passwordConfirm">Confirm password</label>
-        <input type="password" name="passwordConfirm" placeholder="" required value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} />
-        <input type="submit" value="Submit" disabled={fetching} />
-        {error && <div>{error}</div>}
+        <div className={styles.section}>
+          <TextField autoFocus variant="outlined" fullWidth id="username" label="Username" type="text" name="username" required value={username} onChange={e => setUsername(e.target.value)} />
+        </div>
+        <div className={styles.section}>
+          <TextField variant="outlined" fullWidth id="password" label="Password" type="password" name="password" placeholder="" required value={password} onChange={e => setPassword(e.target.value)} />
+        </div>
+        <div className={styles.section}>
+          <TextField variant="outlined" fullWidth id="passwordConfirm" label="Confirm password" type="password" name="passwordConfirm" placeholder="" required value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} />
+        </div>
+        <Button fullWidth variant="contained" color="secondary" type="submit" value="Submit" disabled={fetching}>Submit</Button>
+        {error && <Typography variant="body2" color="textSecondary" align="center">{error}</Typography>}
       </form>
     </>
   );

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Route, Switch, Redirect, withRouter,
 } from 'react-router-dom';
+import { Container } from '@material-ui/core';
 import HomePage from './components/HomePage/HomePage';
 import AddNotePage from './components/AddNodePage/AddNotePage';
 import LogginForm from './components/LogginForm/LogginForm';
@@ -46,15 +47,17 @@ const App = ({ isAuthenticated, getUserFromSession: getUserFromSessionAction, lo
   return (
     <div className={styles.App}>
       <NavBar />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/login" component={LogginForm} />
-        <Route exact path="/subscribe" component={SubscribeForm} />
-        <ProtectedRoute isAllowed={isAllowed} exact path="/my-page" component={NoteList} />
-        <ProtectedRoute isAllowed={isAllowed} exact path="/createNote" component={AddNotePage} />
-        <ProtectedRoute isAllowed={isAllowed} exact path="/note/:id" component={NotePage} />
-        <ProtectedRoute isAllowed={isAllowed} exact path="/note/edit/:id" component={EditNotePage} />
-      </Switch>
+      <Container maxWidth="xs">
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/login" component={LogginForm} />
+          <Route exact path="/subscribe" component={SubscribeForm} />
+          <ProtectedRoute isAllowed={isAllowed} exact path="/my-page" component={NoteList} />
+          <ProtectedRoute isAllowed={isAllowed} exact path="/createNote" component={AddNotePage} />
+          <ProtectedRoute isAllowed={isAllowed} exact path="/note/:id" component={NotePage} />
+          <ProtectedRoute isAllowed={isAllowed} exact path="/note/edit/:id" component={EditNotePage} />
+        </Switch>
+      </Container>
     </div>
   );
 };

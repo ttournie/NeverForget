@@ -19,8 +19,8 @@ const NavBar = ({
       {!isAuthenticated
                 && (
                 <>
-                  <NavLink to="/login" className={styles.link}>login</NavLink>
-                  <NavLink to="/subscribe" className={styles.link}>subscribe</NavLink>
+                  <NavLink to="/login" className={styles.link}>Login</NavLink>
+                  <NavLink to="/subscribe" className={styles.link}>Subscribe</NavLink>
                 </>
                 )
             }
