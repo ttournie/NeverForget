@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-expressions */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-extraneous-dependencies */
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
@@ -15,7 +14,6 @@ chai.use(require('sinon-chai'));
 chai.should();
 
 describe('noteController', () => {
-
   describe('Get user notes', () => {
     it('Sould return 401', (done) => {
       chai.request(app)

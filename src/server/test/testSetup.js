@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 const userModel = require('../app/models/user');
