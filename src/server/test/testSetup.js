@@ -9,8 +9,8 @@ const testData = {
     password: 'testPassword',
   },
   note1: {
-    username: 'testUser',
-    password: 'testPassword',
+    title: 'title test 1',
+    text: 'text test 1',
   },
   note2: {
     title: 'title test 2',
