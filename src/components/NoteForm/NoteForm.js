@@ -21,6 +21,8 @@ const NoteForm = ({
   const [body, setBody] = useState(!R.isEmpty(note) ? note.text : '');
   const [title, setTitle] = useState(!R.isEmpty(note) ? note.title : '');
   const [error, setError] = useState(null);
+  const [isAdded, setIsAdded] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => () => {
     resetErrorAction();
@@ -33,6 +35,19 @@ const NoteForm = ({
       setError(null);
     }
   }, [serverError]);
+
+  useEffect(() => {
+    if (isAdded && !error && !fetching) {
+      if (!R.isEmpty(note)) {
+        setMessage('Note Edited');
+      } else {
+        setMessage('Note Added');
+      }
+      setIsAdded(false);
+      setTitle(!R.isEmpty(note) ? note.title : '');
+      setBody(!R.isEmpty(note) ? note.text : '');
+    }
+  }, [isAdded, error, fetching]);
 
   const formValidation = () => {
     if (title === '') {
@@ -50,6 +65,7 @@ const NoteForm = ({
     e.preventDefault();
     setError(null);
     if (formValidation()) {
+      setIsAdded(true);
       if (!R.isEmpty(note)) {
         const { _id } = note;
         editNoteAction({ id: _id, title, body });
@@ -76,6 +92,7 @@ const NoteForm = ({
 
           <Button type="submit" fullWidth variant="contained" color="secondary" value="Submit" disabled={fetching}>Submit</Button>
         </Grid>
+        {message && <Grid item xs={12}><Typography variant="body2" color="textSecondary" align="center">{message}</Typography></Grid>}
         {error && <Grid item xs={12}><Typography variant="body2" color="textSecondary" align="center">{error}</Typography></Grid>}
       </Grid>
     </form>

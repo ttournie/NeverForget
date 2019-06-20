@@ -49,7 +49,7 @@ const NoteList = ({
                     const { _id: id } = note;
                     return (
                       <ListItem className={classes.item} key={id}>
-                        <UiLink component={Link} color="secondary" to={`/note/${id}`}>{note.title}</UiLink>
+                        <UiLink component={Link} to={`/note/${id}`}>{note.title}</UiLink>
                         <UiLink component="button" color="secondary" type="button" onClick={() => handleDelete(id)}>delete</UiLink>
                       </ListItem>
                     );
