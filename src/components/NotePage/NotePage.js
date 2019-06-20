@@ -13,8 +13,13 @@ import {
 import { getNote, resetError } from '../../store/actions/note';
 
 const useStyles = makeStyles(() => ({
+  title: {
+  },
   text: {
     whiteSpace: 'pre-line',
+  },
+  link: {
+    fontSize: '25px',
   },
 }));
 
@@ -38,15 +43,15 @@ const NotePage = ({
     <>
       {!R.isEmpty(note)
                 && (
-                <Grid container spacing={1}>
+                <Grid container spacing={4}>
                   <Grid item xs={12}>
-                    <Typography variant="h6" align="center">{note.title}</Typography>
+                    <Typography className={classes.title} variant="h6" align="center">{note.title}</Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography className={classes.text} variant="body1" align="center">{note.text}</Typography>
+                    <Typography className={classes.text} variant="body1" align="left">{note.text}</Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <UiLink component={Link} to={`/note/edit/${note._id}`}>Edit</UiLink>
+                    <UiLink className={classes.link} component={Link} to={`/note/edit/${note._id}`}>Edit</UiLink>
                   </Grid>
                 </Grid>
                 )

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const HomePage = ({ user }) => (
   <>
-            Welcome Stranger...
+            Welcome
     {' '}
     {user && user.username}
   </>

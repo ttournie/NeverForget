@@ -12,13 +12,10 @@ import PropTypes from 'prop-types';
 import { logout } from '../../store/actions/user';
 
 const useStyles = makeStyles(() => ({
-  toolbar: {
-    borderBottom: '1px solid #ababab',
-    justifyContent: 'flex-end',
-  },
   toolbarSecondary: {
     justifyContent: 'space-between',
     overflowX: 'auto',
+    marginBottom: '30px',
   },
   toolbarLink: {
     padding: '2px',
