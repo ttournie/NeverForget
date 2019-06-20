@@ -6,9 +6,9 @@ import {
   TextField,
   Button,
   Typography,
+  Grid,
 } from '@material-ui/core';
 import { createUser, resetError } from '../../store/actions/user';
-import styles from './SubscribeForm.less';
 
 const SubscribeForm = ({
   fetchinError,
@@ -63,17 +63,21 @@ const SubscribeForm = ({
         onSubmit={handelSubmit}
         noValidate
       >
-        <div className={styles.section}>
-          <TextField autoFocus variant="outlined" fullWidth id="username" label="Username" type="text" name="username" required value={username} onChange={e => setUsername(e.target.value)} />
-        </div>
-        <div className={styles.section}>
-          <TextField variant="outlined" fullWidth id="password" label="Password" type="password" name="password" placeholder="" required value={password} onChange={e => setPassword(e.target.value)} />
-        </div>
-        <div className={styles.section}>
-          <TextField variant="outlined" fullWidth id="passwordConfirm" label="Confirm password" type="password" name="passwordConfirm" placeholder="" required value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} />
-        </div>
-        <Button fullWidth variant="contained" color="secondary" type="submit" value="Submit" disabled={fetching}>Submit</Button>
-        {error && <Typography variant="body2" color="textSecondary" align="center">{error}</Typography>}
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField autoFocus variant="outlined" fullWidth id="username" label="Username" type="text" name="username" required value={username} onChange={e => setUsername(e.target.value)} />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField variant="outlined" fullWidth id="password" label="Password" type="password" name="password" placeholder="" required value={password} onChange={e => setPassword(e.target.value)} />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField variant="outlined" fullWidth id="passwordConfirm" label="Confirm password" type="password" name="passwordConfirm" placeholder="" required value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} />
+          </Grid>
+          <Grid item xs={12}>
+            <Button fullWidth variant="contained" color="secondary" type="submit" value="Submit" disabled={fetching}>Submit</Button>
+          </Grid>
+          {error && <Typography variant="body2" color="textSecondary" align="center">{error}</Typography>}
+        </Grid>
       </form>
     </>
   );

@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import {
+  Button,
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import styles from './NavBar.less';
 import { logout } from '../../store/actions/user';
@@ -30,7 +33,7 @@ const NavBar = ({
                 <>
                   <NavLink to="/my-page" className={styles.link}>My Page</NavLink>
                   <NavLink to="/createNote" className={styles.link}>Add a note</NavLink>
-                  <button type="button" onClick={handelLogout}>Logout</button>
+                  <Button type="button" onClick={handelLogout}>Logout</Button>
                 </>
                 )
             }

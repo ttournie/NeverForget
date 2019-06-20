@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
+import {
+  TextField,
+  Button,
+  Typography,
+  Grid,
+} from '@material-ui/core';
 import { login, resetError } from '../../store/actions/user';
 
 const LogginForm = ({
@@ -52,12 +58,18 @@ const LogginForm = ({
         onSubmit={handelSubmit}
         noValidate
       >
-        <label id="username" htmlFor="username">Username</label>
-        <input type="text" name="username" placeholder="username" required value={username} onChange={e => setUsername(e.target.value)} />
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" placeholder="" required value={password} onChange={e => setPassword(e.target.value)} />
-        <input type="submit" value="Submit" disabled={fetching} />
-        {error && <div>{error}</div>}
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField type="text" variant="outlined" fullWidth id="username" label="Username" name="username" placeholder="username" required value={username} onChange={e => setUsername(e.target.value)} />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField type="password" variant="outlined" fullWidth id="password" label="Password" name="password" placeholder="" required value={password} onChange={e => setPassword(e.target.value)} />
+          </Grid>
+          <Grid item xs={12}>
+            <Button fullWidth variant="contained" color="secondary" type="submit" value="Submit" disabled={fetching}>Submit</Button>
+          </Grid>
+          {error && <Typography variant="body2" color="textSecondary" align="center">{error}</Typography>}
+        </Grid>
       </form>
     </>
   );

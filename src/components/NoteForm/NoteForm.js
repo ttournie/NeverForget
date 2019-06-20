@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as R from 'ramda';
+import {
+  TextField,
+  Button,
+  Typography,
+} from '@material-ui/core';
 import { addNote, editNote, resetError } from '../../store/actions/note';
-import styles from './NoteForm.less';
 
 const NoteForm = ({
   fetching,
@@ -56,15 +60,13 @@ const NoteForm = ({
 
   return (
     <form
-      className={styles.body}
       onSubmit={handleOnSubmit}
+      noValidate
     >
-      <label className={styles.body} htmlFor="body">Enter the note title</label>
-      <input type="text" name="title" value={title} onChange={e => setTitle(e.target.value)} />
-      <label htmlFor="body">Enter the note body</label>
-      <input type="text" name="body" value={body} onChange={e => setBody(e.target.value)} />
-      <input type="submit" value="Submit" disabled={fetching} />
-      {error && <div>{error}</div>}
+      <TextField type="text" variant="outlined" fullWidth id="title" label="Title" name="title" value={title} onChange={e => setTitle(e.target.value)} />
+      <TextField type="text" variant="outlined" fullWidth id="body" label="Write your note..." name="body" value={body} onChange={e => setBody(e.target.value)} />
+      <Button type="submit" fullWidth variant="contained" color="secondary" value="Submit" disabled={fetching}>Submit</Button>
+      {error && <Typography variant="body2" color="textSecondary" align="center">{error}</Typography>}
     </form>
   );
 };
