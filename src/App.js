@@ -46,8 +46,8 @@ const App = ({ isAuthenticated, getUserFromSession: getUserFromSessionAction, lo
 
   return (
     <div className={styles.App}>
-      <NavBar />
       <Container maxWidth="xs">
+        <NavBar />
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/login" component={LogginForm} />

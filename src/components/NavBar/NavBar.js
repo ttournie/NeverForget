@@ -1,12 +1,25 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import {
-  Button,
+  Toolbar,
+  Link,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import styles from './NavBar.less';
 import { logout } from '../../store/actions/user';
+
+const useStyles = makeStyles(() => ({
+  toolbarSecondary: {
+    justifyContent: 'space-between',
+    overflowX: 'auto',
+  },
+  toolbarLink: {
+    padding: '2px',
+    flexShrink: 0,
+  },
+}));
 
 const NavBar = ({
   isAuthenticated,
@@ -16,28 +29,30 @@ const NavBar = ({
     logoutAction();
   };
 
+  const classes = useStyles();
+
   return (
-    <div className={styles.navBar}>
-      <NavLink to="/" className={styles.link}>Home</NavLink>
+    <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
+      <Link className={classes.toolbarLink} component={NavLink} color="secondary" to="/">Home</Link>
       {!isAuthenticated
-                && (
-                <>
-                  <NavLink to="/login" className={styles.link}>Login</NavLink>
-                  <NavLink to="/subscribe" className={styles.link}>Subscribe</NavLink>
-                </>
-                )
-            }
+                  && (
+                  <>
+                    <Link className={classes.toolbarLink} component={NavLink} color="secondary" to="/login">Login</Link>
+                    <Link className={classes.toolbarLink} component={NavLink} color="secondary" to="/subscribe">Subscribe</Link>
+                  </>
+                  )
+              }
 
       {isAuthenticated
-                && (
-                <>
-                  <NavLink to="/my-page" className={styles.link}>My Page</NavLink>
-                  <NavLink to="/createNote" className={styles.link}>Add a note</NavLink>
-                  <Button type="button" onClick={handelLogout}>Logout</Button>
-                </>
-                )
-            }
-    </div>
+                  && (
+                  <>
+                    <Link className={classes.toolbarLink} component={NavLink} color="secondary" to="/my-page">My Page</Link>
+                    <Link className={classes.toolbarLink} component={NavLink} color="secondary" to="/createNote">Add a note</Link>
+                    <Link className={classes.toolbarLink} component="button" type="button" onClick={handelLogout}>Logout</Link>
+                  </>
+                  )
+              }
+    </Toolbar>
   );
 };
 
