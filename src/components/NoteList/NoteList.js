@@ -1,9 +1,20 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  Link as UiLink,
+  List,
+  ListItem,
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import styles from './NoteList.less';
 import { getUserNotes, deleteNote, resetError } from '../../store/actions/note';
+
+const useStyles = makeStyles(() => ({
+  item: {
+    justifyContent: 'space-between',
+  },
+}));
 
 const NoteList = ({
   fetching,
@@ -25,26 +36,25 @@ const NoteList = ({
     deleteNoteAction(id);
   };
 
+  const classes = useStyles();
+
   return (
     <>
       {fetching && <div> fetching notes </div>}
       {error && <div> error fetching notes </div>}
       {!error && !fetching
                 && (
-                <ul className={styles.list}>
+                <List>
                   {notes.map((note) => {
                     const { _id: id } = note;
                     return (
-                      <li key={id}>
-                        <Link to={`/note/${id}`}>{note.title}</Link>
-                        {' '}
-                          -
-                        {note.text}
-                        <button type="button" onClick={() => handleDelete(id)}>delete</button>
-                      </li>
+                      <ListItem className={classes.item} key={id}>
+                        <UiLink component={Link} color="secondary" to={`/note/${id}`}>{note.title}</UiLink>
+                        <UiLink component="button" color="secondary" type="button" onClick={() => handleDelete(id)}>delete</UiLink>
+                      </ListItem>
                     );
                   })}
-                </ul>
+                </List>
                 )
             }
     </>

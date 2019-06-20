@@ -54,7 +54,7 @@ const NavBar = ({
                     <>
                       <Link className={classes.toolbarLink} component={NavLink} color="secondary" to="/my-page">My Page</Link>
                       <Link className={classes.toolbarLink} component={NavLink} color="secondary" to="/createNote">Add a note</Link>
-                      <Button variant="outlined" color="secondary" size="small" onClick={handelLogout}>Logout</Button>
+                      <Button variant="outlined" size="small" onClick={handelLogout}>Logout</Button>
                     </>
                     )
                 }
