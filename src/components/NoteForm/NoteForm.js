@@ -86,7 +86,7 @@ const NoteForm = ({
         </Grid>
         <Grid item xs={12}>
 
-          <TextField type="text" variant="outlined" fullWidth id="body" label="Write your note..." name="body" value={body} onChange={e => setBody(e.target.value)} />
+          <TextField type="text" multiline variant="outlined" fullWidth id="body" label="Write your note..." name="body" value={body} onChange={e => setBody(e.target.value)} />
         </Grid>
         <Grid item xs={12}>
 
