@@ -6,6 +6,7 @@ import {
   TextField,
   Button,
   Typography,
+  Grid,
 } from '@material-ui/core';
 import { addNote, editNote, resetError } from '../../store/actions/note';
 
@@ -63,10 +64,20 @@ const NoteForm = ({
       onSubmit={handleOnSubmit}
       noValidate
     >
-      <TextField type="text" variant="outlined" fullWidth id="title" label="Title" name="title" value={title} onChange={e => setTitle(e.target.value)} />
-      <TextField type="text" variant="outlined" fullWidth id="body" label="Write your note..." name="body" value={body} onChange={e => setBody(e.target.value)} />
-      <Button type="submit" fullWidth variant="contained" color="secondary" value="Submit" disabled={fetching}>Submit</Button>
-      {error && <Typography variant="body2" color="textSecondary" align="center">{error}</Typography>}
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField type="text" variant="outlined" fullWidth id="title" label="Title" name="title" value={title} onChange={e => setTitle(e.target.value)} />
+        </Grid>
+        <Grid item xs={12}>
+
+          <TextField type="text" variant="outlined" fullWidth id="body" label="Write your note..." name="body" value={body} onChange={e => setBody(e.target.value)} />
+        </Grid>
+        <Grid item xs={12}>
+
+          <Button type="submit" fullWidth variant="contained" color="secondary" value="Submit" disabled={fetching}>Submit</Button>
+        </Grid>
+        {error && <Grid item xs={12}><Typography variant="body2" color="textSecondary" align="center">{error}</Typography></Grid>}
+      </Grid>
     </form>
   );
 };
