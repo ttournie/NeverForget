@@ -10,6 +10,7 @@ import {
   Typography,
   Grid,
 } from '@material-ui/core';
+import { noteItemSelector } from '../../store/selectors/note';
 import { getNote, resetError } from '../../store/actions/note';
 
 const useStyles = makeStyles(() => ({
@@ -67,8 +68,8 @@ NotePage.propTypes = {
   resetError: PropTypes.func,
 };
 
-const MapStateToProps = ({ note }) => ({
-  note: note.notes.length > 0 ? note.notes[0] : {},
+const MapStateToProps = state => ({
+  note: noteItemSelector(state),
 });
 
 export default connect(MapStateToProps, { getNote, resetError })(NotePage);

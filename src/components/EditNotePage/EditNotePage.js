@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as R from 'ramda';
 import { getNote } from '../../store/actions/note';
+import { noteItemSelector } from '../../store/selectors/note';
 import NoteForm from '../NoteForm/NoteForm';
 
 const EditNotePage = ({ match, note, getNote: getNoteAction }) => {
@@ -24,7 +25,7 @@ EditNotePage.propTypes = {
   getNote: PropTypes.func,
 };
 
-const MapStateToProps = ({ note }) => ({
-  note: note.notes.length > 0 ? note.notes[0] : {},
+const MapStateToProps = state => ({
+  note: noteItemSelector(state),
 });
 export default connect(MapStateToProps, { getNote })(EditNotePage);

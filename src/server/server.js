@@ -10,8 +10,8 @@ const chalk = require('chalk');
 const debug = require('debug')('app');
 const db = require('./app/configs/mongo');
 const redis = require('redis');
-const redisClient = redis.createClient();
-const redisStore = require('connect-redis')(session);
+//const redisClient = redis.createClient();
+//const redisStore = require('connect-redis')(session);
 const authRouter = require('./app/routes/authRoutes');
 const passportAuth = require('./app/configs/passport');
 const noteRouter = require('./app/routes/noteRoutes');
@@ -28,9 +28,9 @@ const limiter = rateLimit({
   max: 100,
 });
 
-redisClient.on('error', (err) => {
+/*redisClient.on('error', (err) => {
   debug('Redis error: ', err);
-});
+});*/
 
 const sessionOption = {
   key: 'app.sess',
@@ -38,7 +38,7 @@ const sessionOption = {
   resave: false,
   saveUninitialized: true,
   cookie: { maxAge: 604800000 },
-  store: new redisStore({ host: 'localhost', port: 6379, client: redisClient, ttl: 86400 }),
+  //store: new redisStore({ host: 'localhost', port: 6379, client: redisClient, ttl: 86400 }),
 };
 
 const app = express();
