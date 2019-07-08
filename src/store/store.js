@@ -1,13 +1,14 @@
 import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import promise from 'redux-promise-middleware';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
+import rootSaga from './sagas/auth';
 
 // Usefull for server side.
 const hasWindow = typeof window === 'object';
 
-const middleware = applyMiddleware(promise, thunk);
+const sagaMiddleware = createSagaMiddleware();
+const middleware = applyMiddleware(sagaMiddleware);
 let store;
 
 if (process.env.NODE_ENV === 'development' && hasWindow) {
@@ -15,6 +16,8 @@ if (process.env.NODE_ENV === 'development' && hasWindow) {
 } else {
   store = createStore(rootReducer, middleware);
 }
+
+sagaMiddleware.run(rootSaga);
 
 const finalStore = store;
 export default finalStore;
