@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import {
+  FETCHING_USER_NOTES,
   FETCHING_NOTES,
   FETCH_NOTES_FAILED,
   FETCH_NOTES_SUCCEED,
@@ -23,6 +24,7 @@ const initialState = {
 
 const note = (state = initialState, action) => {
   switch (action.type) {
+    case FETCHING_USER_NOTES:
     case FETCHING_NOTES:
     case CREATING_NOTE:
     case EDITING_NOTE:

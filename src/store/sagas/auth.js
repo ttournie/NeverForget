@@ -1,5 +1,5 @@
 import {
-  put, takeLatest, all, call,
+  put, takeLatest, call,
 } from 'redux-saga/effects';
 import Cookies from 'js-cookie';
 import { get, post } from '../../utils/api';
@@ -33,7 +33,7 @@ function* createUser(action) {
   }
 }
 
-function* createUserWatcher() {
+export function* createUserWatcher() {
   yield takeLatest(CREATING_USER, createUser);
 }
 
@@ -48,7 +48,7 @@ function* fetchUserFromSession() {
   }
 }
 
-function* fetchUserFromSessionWatcher() {
+export function* fetchUserFromSessionWatcher() {
   yield takeLatest(FETCHING_USER_FROM_SESSION, fetchUserFromSession);
 }
 
@@ -66,7 +66,7 @@ function* login(action) {
   }
 }
 
-function* loginWatcher() {
+export function* loginWatcher() {
   yield takeLatest(FETCHING_USER, login);
 }
 
@@ -80,15 +80,6 @@ function* logout() {
   }
 }
 
-function* logoutWatcher() {
+export function* logoutWatcher() {
   yield takeLatest(LOGGING_OUT_USER, logout);
-}
-
-export default function* rootSaga() {
-  yield all([
-    createUserWatcher(),
-    fetchUserFromSessionWatcher(),
-    loginWatcher(),
-    logoutWatcher(),
-  ]);
 }

@@ -1,9 +1,9 @@
 import {
-  get, post, put, deleteRequest,
+  get,
 } from '../../utils/api';
-import asyncActionCreator from './asyncActionCreator';
 
 // Action type
+export const FETCHING_USER_NOTES = 'FETCHING_USER_NOTES';
 export const FETCHING_NOTES = 'FETCHING_NOTE';
 export const FETCH_NOTES_FAILED = 'FETCH_NOTE_FAILED';
 export const FETCH_NOTES_SUCCEED = 'FETCH_NOTES_SUCCEED';
@@ -23,41 +23,32 @@ export const fetchNote = async (id) => {
   return data;
 };
 
-export const getUserNotes = asyncActionCreator({
-  pending: FETCHING_NOTES,
-  complete: FETCH_NOTES_SUCCEED,
-  error: FETCH_NOTES_FAILED,
-}, () => get('/notes'));
+export const getUserNotes = () => ({
+  type: FETCHING_USER_NOTES,
+});
 
-export const getNote = asyncActionCreator({
-  pending: FETCHING_NOTES,
-  complete: FETCH_NOTES_SUCCEED,
-  error: FETCH_NOTES_FAILED,
-}, id => get(`/notes/${id}`));
+export const getNote = id => ({
+  type: FETCHING_NOTES,
+  id,
+});
 
-export const editNote = asyncActionCreator({
-  pending: EDITING_NOTE,
-  complete: EDIT_NOTE_SUCCEED,
-  error: EDIT_NOTE_FAILED,
-}, ({ id, title, body }) => put(`/notes/${id}`, {
+export const editNote = ({ id, title, body }) => ({
+  type: EDITING_NOTE,
+  id,
   title,
-  text: body,
-}));
+  body,
+});
 
-export const addNote = asyncActionCreator({
-  pending: CREATING_NOTE,
-  complete: CREATE_NOTE_SUCCEED,
-  error: CREATE_NOTE_FAILED,
-}, ({ title, body }) => post('/notes/', {
+export const addNote = ({ title, body }) => ({
+  type: CREATING_NOTE,
   title,
-  text: body,
-}));
+  body,
+});
 
-export const deleteNote = asyncActionCreator({
-  pending: DELETING_NOTE,
-  complete: DELETE_NOTE_SUCCEED,
-  error: DELETE_NOTE_FAILED,
-}, id => deleteRequest(`/notes/${id}`));
+export const deleteNote = id => ({
+  type: DELETING_NOTE,
+  id,
+});
 
 export const resetError = () => ({
   type: RESET_NOTE_ERROR,
