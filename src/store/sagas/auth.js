@@ -1,5 +1,5 @@
 import {
-  put, takeLatest, call,
+  put, takeEvery, call,
 } from 'redux-saga/effects';
 import Cookies from 'js-cookie';
 import { get, post } from '../../utils/api';
@@ -34,7 +34,7 @@ function* createUser(action) {
 }
 
 export function* createUserWatcher() {
-  yield takeLatest(CREATING_USER, createUser);
+  yield takeEvery(CREATING_USER, createUser);
 }
 
 function* fetchUserFromSession() {
@@ -49,7 +49,7 @@ function* fetchUserFromSession() {
 }
 
 export function* fetchUserFromSessionWatcher() {
-  yield takeLatest(FETCHING_USER_FROM_SESSION, fetchUserFromSession);
+  yield takeEvery(FETCHING_USER_FROM_SESSION, fetchUserFromSession);
 }
 
 function* login(action) {
@@ -67,7 +67,7 @@ function* login(action) {
 }
 
 export function* loginWatcher() {
-  yield takeLatest(FETCHING_USER, login);
+  yield takeEvery(FETCHING_USER, login);
 }
 
 function* logout() {
@@ -81,5 +81,5 @@ function* logout() {
 }
 
 export function* logoutWatcher() {
-  yield takeLatest(LOGGING_OUT_USER, logout);
+  yield takeEvery(LOGGING_OUT_USER, logout);
 }

@@ -1,5 +1,5 @@
 import {
-  put, takeLatest, call,
+  put, takeEvery, call,
 } from 'redux-saga/effects';
 import {
   get, post, put as putRequest, deleteRequest,
@@ -31,7 +31,7 @@ function* fetchUserNotes() {
 }
 
 export function* fetchUserNotesWatcher() {
-  yield takeLatest(FETCHING_USER_NOTES, fetchUserNotes);
+  yield takeEvery(FETCHING_USER_NOTES, fetchUserNotes);
 }
 
 function* fetchNote(action) {
@@ -44,7 +44,7 @@ function* fetchNote(action) {
 }
 
 export function* fetchNoteWatcher() {
-  yield takeLatest(FETCHING_NOTES, fetchNote);
+  yield takeEvery(FETCHING_NOTES, fetchNote);
 }
 
 function* editNote(action) {
@@ -61,7 +61,7 @@ function* editNote(action) {
 }
 
 export function* editNoteWatcher() {
-  yield takeLatest(EDITING_NOTE, editNote);
+  yield takeEvery(EDITING_NOTE, editNote);
 }
 
 function* addNote(action) {
@@ -78,18 +78,19 @@ function* addNote(action) {
 }
 
 export function* addNoteWatcher() {
-  yield takeLatest(CREATING_NOTE, addNote);
+  yield takeEvery(CREATING_NOTE, addNote);
 }
 
 function* deleteNote(action) {
   try {
     const payload = yield call(deleteRequest, `/notes/${action.id}`);
-    yield put({ type: DELETE_NOTE_SUCCEED, payload });
+    const { data } = payload;
+    yield put({ type: DELETE_NOTE_SUCCEED, payload: data });
   } catch (e) {
     yield put({ type: DELETE_NOTE_FAILED });
   }
 }
 
 export function* deleteNoteWatcher() {
-  yield takeLatest(DELETING_NOTE, deleteNote);
+  yield takeEvery(DELETING_NOTE, deleteNote);
 }
