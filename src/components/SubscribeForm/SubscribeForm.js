@@ -52,6 +52,7 @@ const SubscribeForm = ({
     <>
       {isAuthenticated && <Redirect to="/" />}
       <Formik
+        initialValues={{ username: '', password: '', passwordConfirm: '' }}
         validate={handelValidate}
         onSubmit={handelSubmit}
         ref={formikRef}
@@ -62,7 +63,6 @@ const SubscribeForm = ({
           touched,
           handleChange,
           handleSubmit,
-          isSubmitting,
         }) => (
           <form onSubmit={handleSubmit} noValidate>
             <Grid container spacing={2}>
