@@ -19,6 +19,7 @@ async function addUserAndLogin(user, req, res, next) {
 
 function subscribe(req, res, next) {
   let { password } = req.body;
+  res.status(401).end();
   bcrypt.hash(password, saltRounds,
     (err, hashedPassword) => {
       if (err) {

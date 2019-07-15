@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Formik } from 'formik';
 import {
   TextField,
   Button,
@@ -17,10 +18,7 @@ const SubscribeForm = ({
   createUser: creatUserAction,
   resetError: resetErrorAction,
 }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [error, setError] = useState(null);
+  const formikRef = React.createRef();
 
   useEffect(() => () => {
     resetErrorAction();
@@ -28,57 +26,74 @@ const SubscribeForm = ({
 
   useEffect(() => {
     if (fetchinError) {
-      setError('Could not create user');
+      formikRef.current.setErrors({ form: 'Error submiting form' });
     }
-  }, [fetchinError]);
+  }, [fetching]);
 
-  const formValidation = () => {
-    if (username === '') {
-      setError('username are required');
-      return false;
-    }
-    if (password === '') {
-      setError('password are required');
-      return false;
-    }
-    if (password !== passwordConfirm) {
-      setError('Passwords does not match');
-      return false;
-    }
-    return true;
+  const handelSubmit = (values) => {
+    creatUserAction(values);
   };
 
-  const handelSubmit = (e) => {
-    e.preventDefault();
-    setError(null);
-    if (formValidation()) {
-      creatUserAction({ username, password });
+  const handelValidate = (values) => {
+    const errors = {};
+    if (!values.username) {
+      errors.username = 'Required';
     }
+    if (!values.password) {
+      errors.password = 'Required';
+    }
+    if (values.password !== values.passwordConfirm) {
+      errors.passwordConfirm = ' does not match';
+    }
+    return errors;
   };
 
   return (
     <>
       {isAuthenticated && <Redirect to="/" />}
-      <form
+      <Formik
+        validate={handelValidate}
         onSubmit={handelSubmit}
-        noValidate
+        ref={formikRef}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField autoFocus variant="outlined" fullWidth id="username" label="Username" type="text" name="username" required value={username} onChange={e => setUsername(e.target.value)} />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField variant="outlined" fullWidth id="password" label="Password" type="password" name="password" placeholder="" required value={password} onChange={e => setPassword(e.target.value)} />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField variant="outlined" fullWidth id="passwordConfirm" label="Confirm password" type="password" name="passwordConfirm" placeholder="" required value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} />
-          </Grid>
-          <Grid item xs={12}>
-            <Button fullWidth variant="contained" color="secondary" type="submit" value="Submit" disabled={fetching}>Submit</Button>
-          </Grid>
-          {error && <Typography variant="body2" color="textSecondary" align="center">{error}</Typography>}
-        </Grid>
-      </form>
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form onSubmit={handleSubmit} noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField autoFocus variant="outlined" fullWidth id="username" label="Username" type="text" name="username" required value={values.username} onChange={handleChange} />
+                {errors.username && touched.username
+                 && <Typography variant="body2" color="textSecondary" align="center">{errors.username}</Typography>
+                }
+              </Grid>
+              <Grid item xs={12}>
+                <TextField variant="outlined" fullWidth id="password" label="Password" type="password" name="password" placeholder="" required value={values.password} onChange={handleChange} />
+                {errors.password && touched.password
+                 && <Typography variant="body2" color="textSecondary" align="center">{errors.password}</Typography>
+                }
+              </Grid>
+              <Grid item xs={12}>
+                <TextField variant="outlined" fullWidth id="passwordConfirm" label="Confirm password" type="password" name="passwordConfirm" placeholder="" required value={values.passwordConfirm} onChange={handleChange} />
+                {errors.passwordConfirm
+                 && <Typography variant="body2" color="textSecondary" align="center">{errors.passwordConfirm}</Typography>
+                }
+              </Grid>
+              <Grid item xs={12}>
+                <Button fullWidth variant="contained" color="secondary" type="submit" value="Submit" disabled={fetching}>Submit</Button>
+                {errors.form
+                 && <Typography variant="body2" color="textSecondary" align="center">{errors.form}</Typography>
+                }
+              </Grid>
+            </Grid>
+          </form>
+        )}
+      </Formik>
     </>
   );
 };
